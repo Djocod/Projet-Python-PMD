@@ -53,7 +53,7 @@ def stage_display(nb):
     |||||||||||||||||||||||||||||||||||||||||||||||||
     |name : Paul                             objet: |
     |                                        T.verre|
-    |---------------------------------     éventaile|
+    |---------------------------------    éventaille|
     |Texte:                          /              |
     |                                /       Potion:|
     |                                /      S.Bonbon|
@@ -67,7 +67,7 @@ def stage_display(nb):
     |||||||||||||||||||||||||||||||||||||||||||||||||
     |name : Paul                             objet: |
     |                                        T.verre|
-    |---------------------------------     éventaile|
+    |---------------------------------    éventaille|
     |Texte:                          /              |
     |                                /       Potion:|
     |                                /      S.Bonbon|
