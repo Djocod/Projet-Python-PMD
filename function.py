@@ -1,5 +1,4 @@
 from data_game import Player, Map, Objects
-
 # ================================================
 # Function to buy drinks at a specific location
 def buy_drink(Player, current_position):
