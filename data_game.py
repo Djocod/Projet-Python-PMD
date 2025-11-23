@@ -1,5 +1,3 @@
-#EXEMPLE COMMENT STOCKER LES DONNES
-#reflexion sur le dic des objets
 Player = {
     "name" :"input",
     "life" : 30,
@@ -170,3 +168,5 @@ Map = {
         "fight" : [False],
         },
 }
+
+current_position = "B1"
