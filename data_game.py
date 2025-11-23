@@ -1,12 +1,12 @@
 Player = {
     "name" :"input",
     "life" : 30,
-     "Inventory" : {"Objects" : {"sign": 1,
-                                "decath_chair": 1,
+     "Inventory" : {"Objects" : {"sign": 0,
+                                "decath_chair": 0,
                                 "fan": 0,
                                 "empty_water_bottle":0,
                                 },
-                   "Potions" : {"water": 3,
+                   "Potions" : {"water": 0,
                                "beer": 0,
                                 "sweet_treat":0,
                                 },
@@ -168,5 +168,3 @@ Map = {
         "fight" : [False],
         },
 }
-
-current_position = "B1"
