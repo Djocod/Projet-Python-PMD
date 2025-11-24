@@ -32,7 +32,7 @@ Security = {
     "life" : 50,
     "Attacks" : {
         "death_stare": [7,95],
-        "body_search": ["dommage",30], # prend bonbon et si pas de bonbon, il prend la bière
+        "body_search": [3,30], # prend bonbon et si pas de bonbon, il prend la bière
         "teargas": [8,60],
     },
     }
@@ -74,7 +74,7 @@ Map = {
         "possible_box_directions":["C2","to heal","quit"],
         "print_possible_answers" :["go further in the crowd","to heal","quit"],
         "direction_print" : "",
-        "fight" : [True, "drunk_crowd"] #100%
+        "fight" : [True, "Drunk_crowd"] #100%
         },
     "C2" : {
         "room_name" :"hallway_1",
@@ -101,7 +101,7 @@ Map = {
         "possible_box_directions":["B3","C4","to heal","quit"],
         "print_possible_answers" :["direction to the bar","go further in the crowd","to heal","quit"],
         "direction_print" : "",#qqn a attirer ton attention a gauche et tu vois la buvette un peu plus loin a gauche
-        "fight" : [False, "drunk_crowd"], # 30%
+        "fight" : [False, "Drunk_crowd"], # 30%
         },
     "B3" : {
         "room_name" :"hallway_2",
@@ -156,7 +156,7 @@ Map = {
         "possible_box_directions":["B6","to heal","quit"],
         "print_possible_answers" :["Go main","to heal","quit"],
         "direction_print" : "Le mec de la secu t as vu et tu a l air trop suspect. Il t interroge",
-        "fight" : [True, "security"], #90%
+        "fight" : [True, "Security"], #90%
         },
     "B6" : {
         "room_name" :"main_stage",
