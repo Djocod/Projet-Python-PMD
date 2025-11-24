@@ -54,7 +54,7 @@ Map = {
           "coordinates":(2,1),
           "object" : [ True, "fan", False ,"cup" ],
           "possible_box_directions":["A1","C1","to heal","quit"],
-          "print_possible_answers" :["right","crowd","to heal","quit"],
+          "print_possible_answers" :["left","crowd","to heal","quit"],
           "direction_print" : "Bienvenue au Festi-Folie",
           "fight" : [False],
       },
@@ -63,7 +63,7 @@ Map = {
         "coordinates":(1,1),
         "object" :[True, "sign","beer","cup"],
         "possible_box_directions":["B1","to heal","quit"],
-        "print_possible_answers" :["left","to heal","quit"],
+        "print_possible_answers" :["right","to heal","quit"],
         "direction_print" : "",
         "fight" : [False],
         },
@@ -145,7 +145,7 @@ Map = {
         "coordinates" : (4,5),
         "object" : [True, "decat_chair"," sweet_treat" ,False],
         "possible_box_directions":["C5","to heal","quit"],
-        "print_possible_answers" :["Go back to the music","to heal","quit"],
+        "print_possible_answers" :["go back to the music","to heal","quit"],
         "direction_print" : "Nur Deutsche hier. Du verstehst nichts aber du sprichst mit jemanden der nett aussieht. Nach der Unterhaltung verabschieddet er sich und gibt dir ein Geschenk",
         "fight" : [False],
         },
@@ -154,7 +154,7 @@ Map = {
         "coordinates" : (2,5),
         "object" : [False, False, False ,False],
         "possible_box_directions":["B6","to heal","quit"],
-        "print_possible_answers" :["Go main","to heal","quit"],
+        "print_possible_answers" :["go main","to heal","quit"],
         "direction_print" : "Le mec de la secu t as vu et tu a l air trop suspect. Il t interroge",
         "fight" : [True, "Security"], #90%
         },
@@ -168,4 +168,4 @@ Map = {
         "fight" : [False],
         },
 }
-current_position = "B1"
+current_position = "B6"

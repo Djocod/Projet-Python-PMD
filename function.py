@@ -15,15 +15,17 @@ def stage_display(nb):
     Life : {Player["life"]}
     -------------------------
     """,
-    f""" 4
-    Objects:          | Potions :
+    f""" 
+    -----------------------------------
+    |Life : {Player["life"]} |Position : {Map[current_position]["room_name"]}    |
+    |Objects:          | Potions :     |
     -----------------------------------
     |Sign         : {Player["Inventory"]["Objects"]["sign"]} |Water       : {Player["Inventory"]["Potions"]["water"]} |
     |Decat_chair  : {Player["Inventory"]["Objects"]["decath_chair"]} |Beer        : {Player["Inventory"]["Potions"]["beer"]} |
     |Fan          : {Player["Inventory"]["Objects"]["fan"]} |sweet treat : {Player["Inventory"]["Potions"]["sweet_treat"]} |
     -----------------------------------
     |Exchange : Cashless : {Player["Inventory"]["cashless"]} / Cup : {Player["Inventory"]["cup"]} |
-    Position = {Map[current_position]["room_name"]}
+    
     """,
     f"""3
     =============================================
@@ -280,9 +282,6 @@ def move(current_position):
         if Map[current_position]["object"][0] == True:
             objects_in_the_room(current_position)
         # ---------------------------------------------
-        #Display stat:
-        stage_display(4)
-        # ---------------------------------------------
         # If the player is at "A3" and has enough resources, offer drinks
         while Player["life"] > 0 and current_position == "A3":
         # Ask the player what they want to buy      
@@ -297,10 +296,13 @@ def move(current_position):
                 stage_display(6)
             
             # If the player chooses "water" and has at least 3 cups
-            elif choiceBuyDrink == "cup" and Player["Inventory"]["cup"] == 3:
-                Player["Inventory"]["cup"] -= 3
-                Player["Inventory"]["Potions"]["water"] += 1
-                stage_display(6)
+            elif choiceBuyDrink == "cup":
+                if Player["Inventory"]["cup"] == 3:
+                    Player["Inventory"]["cup"] -= 3
+                    Player["Inventory"]["Potions"]["water"] += 1
+                    stage_display(6)
+                else : 
+                    print("You don't have enough cups!")
             
             # If no valid choice is made, call the move function
             elif choiceBuyDrink == "no":
@@ -317,7 +319,14 @@ def move(current_position):
                 Player["Inventory"]["Potions"]["sweet_treat"] += 1
                 Map[current_position]["object"][2] = False
                 Map[current_position]["object"][0] = False
+                
+        if current_position == "B6": 
+          print("You've made it to the main stage, enjoy the festival!")
+          return
 
+        # ---------------------------------------------
+        #Display stat:
+        stage_display(4)
         # ---------------------------------------------
         # Ask the player for the next direction
         choice = input("Which direction do you want to take?" + str(Map[current_position]["print_possible_answers"]) + "\n").lower()
@@ -334,6 +343,7 @@ def move(current_position):
           if choicePotion == "water" and Player["Inventory"]["Potions"]["water"] > 0:
             Player["life"] += Objects["water"]
             Player["Inventory"]["Potions"]["water"] -= 1
+            Player["Inventory"]["Objects"]["empty_water_bottle"] += 1
             stage_display(5)
           elif choicePotion == "beer" and Player["Inventory"]["Potions"]["beer"] > 0:
             Player["life"] += Objects["beer"]
@@ -347,5 +357,11 @@ def move(current_position):
             # By default, move the player to the next position
             index = Map[current_position]["print_possible_answers"].index(choice)
             current_position = Map[current_position]["possible_box_directions"][index]
+            
+            
+        if Player["life"] == 0 : 
+          choice = input("Do you want play again ? yes or no.", "\n")
+          if choice == "yes": 
+            return
         # ---------------------------------------------
 
