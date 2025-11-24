@@ -116,8 +116,8 @@ Map = {
         "room_name" :"bar",
         "coordinates" : (1,3),
         "object" :[True, False, False ,"cashless"], #if casheless == ou > beer price : 15
-        "possible_box_directions":["B3","to heal","buy drink","quit"],
-        "print_possible_answers" :["return to the crowd","to heal","buy drink","quit"],
+        "possible_box_directions":["B3","to heal","quit"],
+        "print_possible_answers" :["return to the crowd","to heal","quit"],
         "direction_print" : "",
         "fight" : [False],
         },
@@ -168,3 +168,4 @@ Map = {
         "fight" : [False],
         },
 }
+current_position = "B1"
