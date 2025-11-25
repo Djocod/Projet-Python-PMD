@@ -5,17 +5,17 @@ from random import randint
 def stage_display(nb):
 
     stages= [
-    f"""5
+    f""" 6
     -----------------------------------
     |Exchange : Cashless : {Player["Inventory"]["cashless"]} / Cup : {Player["Inventory"]["cup"]} |
     """,
-    f""" 4
+    f""" 5
     -------------------------
     name : {Player["name"]}
     Life : {Player["life"]}
     -------------------------
     """,
-    f""" 3
+    f""" 4
     -----------------------------------
     |Life : {Player["life"]}       |Position : {Map[current_position]["room_name"]}
     |Objects:          | Potions :     |
@@ -27,7 +27,7 @@ def stage_display(nb):
     |Exchange : Cashless : {Player["Inventory"]["cashless"]} / Cup : {Player["Inventory"]["cup"]} |
     
     """,
-    f"""
+    f"""3
     =============================================
     Texte: {Map[current_position]["direction_print"]}
     """,
@@ -316,14 +316,14 @@ def move(start_position):
             if choiceBuyDrink == "cashless" and Player["Inventory"]["cashless"] >= 1:
                 Player["Inventory"]["cashless"] -= 1
                 Player["Inventory"]["Potions"]["beer"] += 1
-                stage_display(5)
+                stage_display(6)
             
             # If the player chooses "water" and has at least 3 cups
             elif choiceBuyDrink == "cup":
                 if Player["Inventory"]["cup"] == 3:
                     Player["Inventory"]["cup"] -= 3
                     Player["Inventory"]["Potions"]["water"] += 1
-                    stage_display(5)
+                    stage_display(6)
                 else : 
                     print("You don't have enough cups!")
             
@@ -349,7 +349,7 @@ def move(start_position):
 
         # ---------------------------------------------
         #Display stat:
-        stage_display(3)
+        stage_display(4)
         # ---------------------------------------------
         # Ask the player for the next direction
         choice = input("Which direction do you want to take?" + str(Map[current_position]["print_possible_answers"]) + "\n").lower()
@@ -367,18 +367,15 @@ def move(start_position):
             Player["life"] += Objects["water"]
             Player["Inventory"]["Potions"]["water"] -= 1
             Player["Inventory"]["Objects"]["empty_water_bottle"] += 1
-            stage_display(3)
-            print("Water")
+            stage_display(5)
           elif choicePotion == "beer" and Player["Inventory"]["Potions"]["beer"] > 0:
             Player["life"] += Objects["beer"]
             Player["Inventory"]["Potions"]["beer"] -= 1
-            stage_display(3)
-            print("Beer")
+            stage_display(5)
           elif choicePotion == "sweet_treat" and Player["Inventory"]["Potions"]["sweet_treat"] > 0:
             Player["life"] += Objects["sweet_treat"]
             Player["Inventory"]["Potions"]["sweet_treat"] -= 1
-            print("Sweet_treat")
-            stage_display(3)
+            stage_display(5)
         else:
             # By default, move the player to the next position
             index = Map[current_position]["print_possible_answers"].index(choice)
