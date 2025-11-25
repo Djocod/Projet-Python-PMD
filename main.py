@@ -1,7 +1,7 @@
 from function import move
-from data_game import current_position
+from data_game import start_position
 
 def start_game():
-  move(current_position)
+  move(start_position)
 
 start_game()

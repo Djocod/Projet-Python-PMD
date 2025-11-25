@@ -1,4 +1,4 @@
-from data_game import Player, Map, Objects, Drunk_crowd, Security, current_position
+from data_game import Player, Map, Objects, Drunk_crowd, Security, start_position
 from random import randint
 # ================================================
 
@@ -17,7 +17,7 @@ def stage_display(nb):
     """,
     f""" 
     -----------------------------------
-    |Life : {Player["life"]} |Position : {Map[current_position]["room_name"]}    |
+    |Life : {Player["life"]} |Position : {Map[current_position]["room_name"]}
     |Objects:          | Potions :     |
     -----------------------------------
     |Sign         : {Player["Inventory"]["Objects"]["sign"]} |Water       : {Player["Inventory"]["Potions"]["water"]} |
@@ -27,20 +27,30 @@ def stage_display(nb):
     |Exchange : Cashless : {Player["Inventory"]["cashless"]} / Cup : {Player["Inventory"]["cup"]} |
     
     """,
-    f"""3
+    f"""
     =============================================
     Texte: {Map[current_position]["direction_print"]}
     """,
-    f""" 2
-    Crowd Attacks | Life : {Drunk_crowd["life"]}
-    sweaty_contact  : {Drunk_crowd["Attacks"]["sweaty_contact"][0]} dommage  | Chance of Hit:{Drunk_crowd["Attacks"]["sweaty_contact"][1]}%
-    step_on_the_feet: {Drunk_crowd["Attacks"]["step_on_the_feet"][0]} dommage  | Chance of Hit :{Drunk_crowd["Attacks"]["step_on_the_feet"][1]}%
+    f""" 
+    |Drunk crowd attacks | Life : {Drunk_crowd["life"]}                       |Your attacks | Life : {Player["life"]}
+    |sweaty_contact  : {Drunk_crowd["Attacks"]["sweaty_contact"][0]} dommage  | Chance of Hit:{Drunk_crowd["Attacks"]["sweaty_contact"][1]}%      |Push      : {Player["Attacks"]["push"][0]} dommage  | Chance of Hit : {Player["Attacks"]["push"][1]}%
+    |step_on_the_feet: {Drunk_crowd["Attacks"]["step_on_the_feet"][0]} dommage  | Chance of Hit:{Drunk_crowd["Attacks"]["step_on_the_feet"][1]}%      |Love dance: {Player["Attacks"]["love_dance"][0]} dommage  | Chance of Hit : {Player["Attacks"]["love_dance"][1]}%
+    
+    
+                                      |Sign         : {Player["Inventory"]["Objects"]["sign"]} |Water       : {Player["Inventory"]["Potions"]["water"]} |
+                                      |Decat_chair  : {Player["Inventory"]["Objects"]["decath_chair"]} |Beer        : {Player["Inventory"]["Potions"]["beer"]} |
+                                      |Fan          : {Player["Inventory"]["Objects"]["fan"]} |sweet treat : {Player["Inventory"]["Potions"]["sweet_treat"]} |
     """,
-    f""" 1
-   {Security["name" ]} | Life : {Security["life"]}
-    death_stare  : {Security["Attacks"]["death_stare"][0]} dommage  | Chance of Hit:{Security["Attacks"]["death_stare"][1]}%
-    body_search  : Chance of Hit :{Security["Attacks"]["body_search"][1]}%
-    teargas      : {Security["Attacks"]["teargas"][0]} dommage  | Chance of Hit :{Security["Attacks"]["teargas"][1]}%
+    f"""  
+    |{Security["name" ]} | Life : {Security["life"]}                     |Your attacks | Life : {Player["life"]}
+    |Death_stare  : {Security["Attacks"]["death_stare"][0]} dommage  | Chance of Hit:{Security["Attacks"]["death_stare"][1]}%       |Push      : {Player["Attacks"]["push"][0]} dommage  | Chance of Hit : {Player["Attacks"]["push"][1]}%
+    |Body_search  : {Security["Attacks"]["body_search"][0]} dommage  | Chance of Hit :{Security["Attacks"]["body_search"][1]}%      |Love dance: {Player["Attacks"]["love_dance"][0]} dommage  | Chance of Hit : {Player["Attacks"]["love_dance"][1]}%
+    |Teargas      : {Security["Attacks"]["teargas"][0]} dommage  | Chance of Hit:{Security["Attacks"]["teargas"][1]}%
+    
+
+                                      |Sign         : {Player["Inventory"]["Objects"]["sign"]} |Water       : {Player["Inventory"]["Potions"]["water"]} |
+                                      |Decat_chair  : {Player["Inventory"]["Objects"]["decath_chair"]} |Beer        : {Player["Inventory"]["Potions"]["beer"]} |
+                                      |Fan          : {Player["Inventory"]["Objects"]["fan"]} |sweet treat : {Player["Inventory"]["Potions"]["sweet_treat"]} |
     """
     ]
 
@@ -112,11 +122,13 @@ def fight(Player,enemy_type):
     enemy_name = Drunk_crowd["name"][randint(0,len(Drunk_crowd["name"])-1)]
     enemy_life = Drunk_crowd['life']
     enemy_attacks = Drunk_crowd['Attacks']
+    nb = 2
 
   else:
     enemy_name = Security["name"]
     enemy_life = Security['life']
     enemy_attacks = Security['Attacks']
+    nb = 1
 
   #print(enemy_name,enemy_life,enemy_attacks)
   print("A confrontation has been declared between you and "+ str(enemy_name )
@@ -128,7 +140,9 @@ def fight(Player,enemy_type):
     print("You've encounter your last confrontation. Fight well lill troubadour")
 
   while  Player["life"] > 0 and enemy_life > 0 :
-
+    
+    stage_display(nb)
+    
     choice_player = select_attack(Player) #ie , choice_player("Attacks","push")
     #print(choice_player)
 
@@ -267,7 +281,9 @@ def objects_in_the_room(current_position):
 # ================================================
 # Function to run the game - more specifically his movements on the maps and the events that follow
 
-def move(current_position):
+def move(start_position):
+    global current_position
+    current_position = start_position
     
     # While the player is alive, hasn't reached "B6", and hasn't quit
     while Player["life"] > 0 or current_position != "B6" or quit == False:
@@ -277,6 +293,9 @@ def move(current_position):
         # ---------------------------------------------
         if Map[current_position]["fight"][0] == True:
            Player["life"] = fight(Player,str(Map[current_position]["fight"][1]))
+           if Map[current_position]["fight"][1] == "Drunk_crowd":
+             Player["Inventory"]["Potions"]["beer"]+=1
+             Player["Inventory"]["cashless"]+=1 
         # ---------------------------------------------
         # Check if the room contains objects and collect them
         if Map[current_position]["object"][0] == True:

@@ -168,4 +168,4 @@ Map = {
         "fight" : [False],
         },
 }
-current_position = "B6"
+start_position = "B1"
