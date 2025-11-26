@@ -1,5 +1,7 @@
 from data_game import Player, Map, Objects, Drunk_crowd, Security, start_position
 from random import randint
+import matplotlib.pyplot as plt
+
 # ================================================
 
 def stage_display(nb):
@@ -293,6 +295,13 @@ def move(start_position):
         # ---------------------------------------------
         # Display the description of the current room
         print(Map[current_position]["direction_print"])
+
+        #display the map in a plot 
+        coordinates_of_the_rooms = [Map[room]["coordinates"]for room in Map]
+        X = [coordinates_of_x[0] for coordinates_of_x in coordinates_of_the_rooms]
+        y = [coordinates_of_y[1] for coordinates_of_y in coordinates_of_the_rooms]
+        plot_map(current_position,X,y)
+
         # ---------------------------------------------
         # Fight function call
         if Map[current_position]["fight"][0] == True:
@@ -356,9 +365,15 @@ def move(start_position):
         while choice not in Map[current_position]["print_possible_answers"]:
                 choice = input("You made a typo. Which direction do you want to take?" + str(Map[current_position]["print_possible_answers"])+ "\n").lower()
         
+        
+        if choice == "quit": 
+           answer = input("You are quitting the game, type yes to continue"+ "\n").lower()
+           while answer != "yes":
+              answer = input("Please answer yes or no. Are you sure you want to quit ?"+ "\n").lower()
+           return
         # ---------------------------------------------
         # Allow the player to heal using potions: OK!!!
-        if choice == "to heal":
+        elif choice == "to heal":
           choicePotion = input("Take a potion: " + str(Player["Inventory"]["Potions"])+ " or no" + "\n").lower()
           while choicePotion not in Player["Inventory"]["Potions"] and choicePotion != "no"  :
               choicePotion = input("You made a typo. Take a potion: " + str(Player["Inventory"]["Potions"]) + " or no"  + "\n").lower()
@@ -381,10 +396,18 @@ def move(start_position):
             index = Map[current_position]["print_possible_answers"].index(choice)
             current_position = Map[current_position]["possible_box_directions"][index]
             
-            
+          
+      
         if Player["life"] == 0 : 
           choice = input("Do you want play again ? yes or no.", "\n")
           if choice == "yes": 
             return
         # ---------------------------------------------
 
+
+
+def plot_map(current_position,X,y): #À PEAUFINER
+  plt.figure(figsize=(8,6))
+  plt.scatter(X,y, c="b", s=10)
+  plt.scatter(Map[current_position]["coordinates"][0],Map[current_position]["coordinates"][1],c="r",s=50)
+  plt.show()
