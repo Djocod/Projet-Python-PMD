@@ -49,6 +49,44 @@ Objects = {"sign":2,
 
 
 Map = {
+    "B0" : {
+          "room_name" :"Tuto",
+          "coordinates":(1,1),
+          "object" : [False, False, False ,False],
+          "possible_box_directions":["B1","C1","quit"],
+          "print_possible_answers" :["enter the festival"],
+          "fight" : [False],
+          "visited" :True,
+          "direction_print" : 
+              """
+            
+            Welcome to the world-renowned J.M.J FESTIVAL, 
+              
+              Here, there's only one rule: party hard.
+
+              In the line, you unfortunately ran into a festival-goer who robbed you of all your items — including your ticket :( 
+              As a result, you're beyond pissed, and you decide it's payback time: 
+              
+              >> you're now determined to rob every festival-goer who stands in your way of getting closer to the stage. 
+              
+
+              
+              While moving around, you'll find items that might help you in a fight or heal you up. 
+              Use your attacks, items and potions wisely... 
+              Some items and potions can only be found once in this wonderful adventure. 
+              Also, cashless bracelets and Empty cups can be exchanged at the bar for beer and water ;)
+              
+              Regarding your confrontations, you'll have one action per round. You'll be able to choose between using one of your two basic attack or use an item. 
+
+            
+              Security is on-site too… and they're not exactly friendly. 
+              If you lose a fight, security will catch you and kick you out of the festival for causing public disorder and sneaking in without a valid ticket.
+
+              You can heal yourself in between fights during your direction choice, just write "to heal" in the console
+
+              """,
+      },
+
     "B1" : {
           "room_name" :"Entrance",
           "coordinates":(2,1),
@@ -56,16 +94,23 @@ Map = {
           "possible_box_directions":["A1","C1","to heal","quit"],
           "print_possible_answers" :["left","crowd","to heal","quit"],
           "fight" : [False],
+          "visited" : False,
           "direction_print" : 
               """
-              Bienvenue au J.M.J FESTIVAL, 
+              At your arrival, a member of the staff greets you with a hand fan and a free cold beer (the dream).  
+
+              Now the festival vibe has fully taken over, and you're feeling the joy of the moment.
+              Still, you're more determined than ever to reach the Main Stage.
+
+
+
+              You are at the junction.
+
+              At your left :    In the distance, you can hear the sound of what seems to be a stage 
+                                A group of people is gathered in front of it.
               
-              Ici, il n'y a qu'un mot d'ordre faire la fête, ta mission grillée 
-              la place des autres festivaliers afin d'arriver à la Scène principale.
-              Tu devras donc te battre contre certains festivaliers qui ne voudront pas te laisser passer.
-              Durant tes déplacements, tu trouveras des objets qui pourront éventuellement t'aider à te battre ou te soigner.
-              
-              La sécurité est présente sur le site et elle n'est pas vraiment sympa.
+              At your right : It's the beginning of the crowd.
+
               """,
       },
     "A1" : {
@@ -75,7 +120,15 @@ Map = {
         "possible_box_directions":["B1","to heal","quit"],
         "print_possible_answers" :["right","to heal","quit"],
         "fight" : [False],
-        "direction_print" : "",
+        "visited" : False,
+        "direction_print" : """ 
+            
+            You're disappointed — it wasn't the Main Stage, and the music is a letdown. You decide to grab some belongings that were left unattended.
+
+            You can now go back to the entrance. 
+
+
+        """,
         },
     "C1" : {
         "room_name" :"crowd_1",
@@ -83,8 +136,14 @@ Map = {
         "object" : [False,False,False,False],
         "possible_box_directions":["C2","to heal","quit"],
         "print_possible_answers" :["go further in the crowd","to heal","quit"],
-        "fight" : [True, "Drunk_crowd"], #100%
-        "direction_print" : "",
+        "fight" : [True, "Drunk_crowd",100], #100%
+        "visited" : False,
+        "direction_print" : """
+
+                You're walking in the beginning of the crowd. You pass by stalls full of clothes and jewelry, the festival buzzing with life. 
+                It's summer, everything feels alive and chaotic. 
+
+""",
         },
     "C2" : {
         "room_name" :"hallway_1",
@@ -93,7 +152,14 @@ Map = {
         "possible_box_directions":["D2","C3","to heal","quit"],
         "print_possible_answers" :["yes","no","to heal","quit"],#input == no -> C3 else D2
         "fight" : [False],
-        "direction_print" : "Do you need a break?",
+        "visited" : False,
+        "direction_print" : """
+
+        
+        Do you need a break ? The risk reduction stand is just at your right and the 'safer staff' seems nice. 
+        There's even a lonely cup on the floor waiting to be noticed.
+
+        """,
         },
     "D2" : {
         "room_name" :"safer_zone",
@@ -102,62 +168,115 @@ Map = {
         "possible_box_directions":["C2","to heal","quit"],
         "print_possible_answers" :["return to crowd","to heal","quit"],
         "fight" : [False],
-        "direction_print" : "",
+        "visited" : False,
+        "direction_print" : """
+
+                You've chatted with the staff and they gave you a bottle of water ! 
+
+                Now that you've rested, you can go back to the crowd and finish you quest.
+""",
         },
     "C3" : {
-        "room_name" :"crowd_2",
+        "room_name" :"moving sculpture",
         "coordinates":(3,3),
         "object" :[True,"decat_chair",False,False],
         "possible_box_directions":["B3","C4","to heal","quit"],
         "print_possible_answers" :["direction to the bar","go further in the crowd","to heal","quit"],
-        "fight" : [False, "Drunk_crowd"], # 30%
-        "direction_print" : "",#qqn a attirer ton attention a gauche et tu vois la buvette un peu plus loin a gauche
+        "fight" : [False, "Drunk_crowd",30], # 30% chances to have this fight
+        "visited" : False,
+        "direction_print" : """
+
+             You're facing a strange moving sculpture.
+
+             Further in your left, you see the drink stand (bar)
+             or you can head straight, even further in the crowd to the divination tent.
+
+
+""",
         },
     "B3" : {
-        "room_name" :"hallway_2",
+        "room_name" :"mini funfair",
         "coordinates":(2,3),
         "object" : [True, False,"sweet_treat",False],
         "possible_box_directions":["A3","C3","to heal","quit"],
-        "print_possible_answers" :["bar","return to the crowd","to heal","quit"],
+        "print_possible_answers" :["bar","return to the moving statue","to heal","quit"],
         "fight" : [False],
-        "direction_print" : "",
+        "visited" : False,
+        "direction_print" : """
+
+            You walk past the tiny funfair. 
+
+            You can either You can go left toward the bar 
+            or right to return to the moving statue.
+
+""",
         },
     "A3" : {
         "room_name" :"bar",
         "coordinates" : (1,3),
         "object" :[True, False, False ,"cashless"], #if casheless == ou > beer price : 15
         "possible_box_directions":["B3","to heal","quit"],
-        "print_possible_answers" :["return to the crowd","to heal","quit"],
+        "print_possible_answers" :["return to the mini funfair","to heal","quit"],
         "fight" : [False],
-        "direction_print" : "",
+        "direction_print" : """
+        
+                Congrats, you've reached the bar. Unfortunately, this is not the end of your quest.
+                However you can still stop by to refresh yourself with a cold beer or fresh water.
+
+                From here, you can only retrace your steps.
+""",
         },
     "C4" : {
-        "room_name" :"hallway3",
+        "room_name" :"divination tent",
         "coordinates" : (3,4),
         "object" :[False, False, False ,False],
         "possible_box_directions":["C5","to heal","quit"],
         "print_possible_answers" :["go further into the music","to heal","quit"],
         "fight" : [False],
-        "direction_print" : "",#Tu entends la musique de plus en plus tu the rapproches de la mainstage
+        "direction_print" : """
+
+                Out of curiousity, you ask the fortune teller to give you a prediction. 
+                
+                    ' When the gatewardens root themselves like ancient trees, let your tale drift toward them.
+                    Once in a fleeting moment, the hard stone of duty may crack just enough for compassion to slip through.'
+
+
+                But it's just gibberish, won't be of any use.
+                
+                You begin to hear the music in the far, the goal is near. The main stage is definitely forward !
+""",
         },
     "C5" : {
-        "room_name" :"hallway4",
+        "room_name" :"banner crossroad",
         "coordinates" : (3,5),
         "object" : [False, False, False ,False],
         "possible_box_directions":["B5","D5","to heal","quit"],
         "print_possible_answers" :["go to security","right","to heal","quit"],
-        "direction_print" : "",#a droit secret room en allemand et a gauche les lumieres de la secu
+        "direction_print" : """
+
+                You've reached a crossroad marked by a banner. 
+
+                To your right, people are gathered around a camp fire. 
+                To your left, you see security's light. You're just about to have your final fight.
+                Make sure you've got as many items as possible before moving toward security.
+""",
         "fight" : [False],
-        #rassure toi que tu as le plus d objet possible avant d avancer vers la secu
+        
         },
     "D5" : {
-        "room_name" :"secret_room_2",
+        "room_name" :"camp fire",
         "coordinates" : (4,5),
         "object" : [True, "decat_chair"," sweet_treat" ,False],
         "possible_box_directions":["C5","to heal","quit"],
-        "print_possible_answers" :["go back to the music","to heal","quit"],
+        "print_possible_answers" :["go back to the banner crossroad","to heal","quit"],
         "fight" : [False],
-        "direction_print" : "Nur Deutsche hier. Du verstehst nichts aber du sprichst mit jemanden der nett aussieht. Nach der Unterhaltung verabschieddet er sich und gibt dir ein Geschenk",
+        "direction_print" : """
+        
+        Nur Deutsche hier. Du verstehst nichts aber du sprichst mit jemanden der nett aussieht.
+        Nach der Unterhaltung verabschieddet er sich und gibt dir ein Geschenk.
+
+        From here you can only go back to the banner crossroad.
+        """,
         },
     "B5" : {
         "room_name" :"security",
@@ -165,8 +284,12 @@ Map = {
         "object" : [False, False, False ,False],
         "possible_box_directions":["B6","to heal","quit"],
         "print_possible_answers" :["go main","to heal","quit"],
-        "fight" : [True, "Security"], #90%
-        "direction_print" : "Le mec de la secu t as vu et tu a l air trop suspect. Il t interroge",
+        "fight" : [True, "Security",90], 
+        "direction_print" :"""
+
+        The security guy spots you — you look way too suspicious. He starts questioning you. 
+        
+        """, 
         },
     "B6" : {
         "room_name" :"main_stage",
@@ -175,7 +298,13 @@ Map = {
         "possible_box_directions":["to heal","quit"],
         "print_possible_answers" :["to heal","quit"],
         "fight" : [False],
-        "direction_print" : "Enfin tu es arrive a la mainstage Profite bien de ton festival",
+        "direction_print" : """
+        
+        At last, you stand before the Main Stage — massive, loud, and brighter than anything you've seen tonight. 
+        Your journey ends here. 
+        Good job ! You're a very unhethical person ;))
+        
+        """,
         },
 }
-start_position = "B1"
+start_position = "B0"

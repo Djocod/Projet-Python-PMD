@@ -139,7 +139,7 @@ def fight(Player,enemy_type):
   print("A confrontation has been declared between you and "+ str(enemy_name )
         + "... You'll have to fight to reach your ultimate goal : enjoy the music on the main stage."+ "\n" 
         + "Your opponent has " + str(enemy_life) + " points of life" + "\n"
-        + " Use your attacks, items and potions wisely... Some items and potions can only be found once in this wonderful adventure. They can only be used once. ")
+        + " Use your attacks, items and potions wisely... Some items and potions can only be found once in this wonderful adventure. ")
   
   if enemy_type == "Security":
     print("You've encounter your last confrontation. Fight well lill troubadour")
@@ -152,7 +152,7 @@ def fight(Player,enemy_type):
     #print(choice_player)
 
 
-    # PARTIE DU COMBAT DU JOUEUR - fonctionnelle avec les prints et tout
+    # PARTIE DU COMBAT DU JOUEUR 
     if choice_player[0]== "Potions":
       Player["life"] += Objects[choice_player[1]] #rajoute l'effet de la potion à la vie du joueur
       print("You used " + choice_player[1])
@@ -254,7 +254,7 @@ def objects_in_the_room(current_position):
     # Check if there is a "decat_chair" in the room
     elif Map[current_position]["object"][1] == "decat_chair":
         Player["Inventory"]["Objects"]["decath_chair"] += 1
-        print("You have find a decat_chair")
+        print("You spot a lonely Decathlon chair abandoned right. You loot the chair.")
         Map[current_position]["object"][1] = False
     
     # Check if there is a "sign" in the room
@@ -284,7 +284,7 @@ def objects_in_the_room(current_position):
         Map[current_position]["object"][3] = False
 
 # ================================================
-# Function to run the game - more specifically his movements on the maps and the events that follow
+# Function to run the game - more specifically Player movements on the maps and the events that follow
 
 def move(start_position):
     global current_position
@@ -293,8 +293,6 @@ def move(start_position):
     # While the player is alive, hasn't reached "B6", and hasn't quit
     while Player["life"] > 0 or current_position != "B6" or quit == False:
         # ---------------------------------------------
-        # Display the description of the current room
-        print(Map[current_position]["direction_print"])
 
         #display the map in a plot 
         coordinates_of_the_rooms = [Map[room]["coordinates"]for room in Map]
@@ -305,17 +303,31 @@ def move(start_position):
         # ---------------------------------------------
         # Fight function call
         if Map[current_position]["fight"][0] == True:
-           Player["life"] = fight(Player,str(Map[current_position]["fight"][1]))
+           dice = randint(0,100) #some fights don't appear all the time
+
+           if dice <= Map[current_position]["fight"][2] :
+            print(dice) # à retirer, juste pour le debug
+            Player["life"] = fight(Player,str(Map[current_position]["fight"][1]))
+           elif current_position == "B5" and dice > Map[current_position]["fight"][2]:
+              print("For some strange reason, Breit is moved by your story and let himself be corrubted. Breit let you through to enjoy the concert.")
+
+          #loot the drunk crowd dropped objects
+           print("""After plenty of dodging and squeezin through, you finally managed to get past festival-goer who was blocking your way. You decide to snatch their cashless wristband and their beer as payback.""")          
            if Map[current_position]["fight"][1] == "Drunk_crowd":
              Player["Inventory"]["Potions"]["beer"]+=1
              Player["Inventory"]["cashless"]+=1 
         # ---------------------------------------------
+         # Display the description of the current room
+        print(Map[current_position]["direction_print"])
+
+
         # Check if the room contains objects and collect them
         if Map[current_position]["object"][0] == True:
             objects_in_the_room(current_position)
-        # ---------------------------------------------
-        # If the player is at "A3" and has enough resources, offer drinks
-        while Player["life"] > 0 and current_position == "A3":
+        # -----------------------------------------------
+        # If the player is at the bar and has enough resources, offer drinks
+        choiceBuyDrink = 0
+        while Player["life"] > 0 and current_position == "A3" and choiceBuyDrink != "no":
         # Ask the player what they want to buy      
             choiceBuyDrink = input("What can I get you, troubadour? Exchange your 'cashless'for a beer or your 3 'cup' for a water drink or type 'no' to move on" + "\n").lower()
             while choiceBuyDrink not in ["cashless", "cup","no"]:
@@ -337,12 +349,12 @@ def move(start_position):
                     print("You don't have enough cups!")
             
             # If no valid choice is made, call the move function
-            elif choiceBuyDrink == "no":
-                break 
+            #elif choiceBuyDrink == "no":
+                #break 
         # ---------------------------------------------
         # If the player is at "B3" or "D5" and there are objects in the room
         if current_position == "B3" and Map[current_position]["object"][0] == True or current_position == "D5" and Map[current_position]["object"][0] == True:
-            print(f"Would you like a {Map[current_position]['object'][2]}?")
+            print(f"Psst psst. Someone offers you a {Map[current_position]['object'][2]}, would you like to take it ?")
             choice = input("yes or no ").lower()
             while choice not in ["yes", "no"]:
                 choice = input("You made a typo. yes or no ").lower()
@@ -351,6 +363,9 @@ def move(start_position):
                 Player["Inventory"]["Potions"]["sweet_treat"] += 1
                 Map[current_position]["object"][2] = False
                 Map[current_position]["object"][0] = False
+
+        if current_position =="C3" and Map[current_position]["visited"]== False:
+           print(" Someone catches your attention to the left.")
                 
         if current_position == "B6": 
           print("You've made it to the main stage, enjoy the festival!")
@@ -398,7 +413,7 @@ def move(start_position):
             
           
       
-        if Player["life"] == 0 : 
+        if Player["life"] <= 0 : 
           choice = input("Do you want play again ? yes or no.", "\n")
           if choice == "yes": 
             return
