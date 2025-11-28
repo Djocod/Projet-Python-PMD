@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 # ================================================
 
-def stage_display(nb):
+def stage_display():
 
     stages= [
     f""" 6
@@ -34,7 +34,7 @@ def stage_display(nb):
     Texte: {Map[current_position]["direction_print"]}
     """,
     f""" 2
-    |Drunk crowd attacks | Life : {Drunk_crowd["life"]}                       |Your attacks | Life : {Player["life"]}
+    |Drunk crowd attacks | life : :                                                    |Your attacks | Life : {Player["life"]}
     |sweaty_contact  : {Drunk_crowd["Attacks"]["sweaty_contact"][0]} dommage  | Chance of Hit:{Drunk_crowd["Attacks"]["sweaty_contact"][1]}%      |Push      : {Player["Attacks"]["push"][0]} dommage  | Chance of Hit : {Player["Attacks"]["push"][1]}%
     |step_on_the_feet: {Drunk_crowd["Attacks"]["step_on_the_feet"][0]} dommage  | Chance of Hit:{Drunk_crowd["Attacks"]["step_on_the_feet"][1]}%      |Love dance: {Player["Attacks"]["love_dance"][0]} dommage  | Chance of Hit : {Player["Attacks"]["love_dance"][1]}%
     
@@ -46,20 +46,20 @@ def stage_display(nb):
                                           
     """,
     f"""  1
-    |{Security["name" ]} | Life : {Security["life"]}                     |Your attacks | Life : {Player["life"]}
+    |{Security["name" ]} |                                                 |Your attacks | Life : {Player["life"]}
     |Death_stare  : {Security["Attacks"]["death_stare"][0]} dommage  | Chance of Hit:{Security["Attacks"]["death_stare"][1]}%       |Push      : {Player["Attacks"]["push"][0]} dommage  | Chance of Hit : {Player["Attacks"]["push"][1]}%
     |Body_search  : {Security["Attacks"]["body_search"][0]} dommage  | Chance of Hit :{Security["Attacks"]["body_search"][1]}%      |Love dance: {Player["Attacks"]["love_dance"][0]} dommage  | Chance of Hit : {Player["Attacks"]["love_dance"][1]}%
     |Teargas      : {Security["Attacks"]["teargas"][0]} dommage  | Chance of Hit:{Security["Attacks"]["teargas"][1]}%
     
 
-                    |Sign               : {Player["Inventory"]["Objects"]["sign"]} |Dommage : {Objects["sign"]} |Water       : {Player["Inventory"]["Potions"]["water"]} |
-                    |Decat chair        : {Player["Inventory"]["Objects"]["decath_chair"]} |Dommage : {Objects["decath_chair"]} |Beer        : {Player["Inventory"]["Potions"]["beer"]} |
-                    |Fan                : {Player["Inventory"]["Objects"]["fan"]} |Dommage : {Objects["fan"]} |sweet treat : {Player["Inventory"]["Potions"]["sweet_treat"]} |
+                    |Sign               : {Player["Inventory"]["Objects"]["sign"]} |Dommage : {Objects["sign"]} |Water       : {Player["Inventory"]["Potions"]["water"]} | + {Objects["water"]} HP
+                    |Decat chair        : {Player["Inventory"]["Objects"]["decath_chair"]} |Dommage : {Objects["decath_chair"]} |Beer        : {Player["Inventory"]["Potions"]["beer"]} | + {Objects["beer"]}
+                    |Fan                : {Player["Inventory"]["Objects"]["fan"]} |Dommage : {Objects["fan"]} |sweet treat : {Player["Inventory"]["Potions"]["sweet_treat"]} | + {Objects["sweet_treat"]}
                     |Empty water bottle : {Player["Inventory"]["Objects"]["empty_water_bottle"]} |Dommage : {Objects["empty_water_bottle"]} |
     """
     ]
 
-    print(stages[6 - nb])
+    #print(stages[6 - nb])
 
 # ================================================
 # Functions for the fights
@@ -76,9 +76,9 @@ def select_attack(Player):
 
   # Ask what action the player wants to do
   else:
-    choice = input("Do you want to use objects (defence or attack), potions or basic attacks?  ").lower()
+    choice = input("Do you want to use 'objects' , 'potions' or 'basic attacks' ?  ").lower()
     while choice not in ["objects","potions","basic attacks"]:
-      choice = input("You miss typed your answer. Do you want to use objects , potions or basic attacks?  ").lower()
+      choice = input("You miss typed your answer. Do you want to use objects , 'potions' or 'basic attacks' ?  ").lower()
 
 
     if choice == "objects":
@@ -113,7 +113,7 @@ def select_attack(Player):
         return ("Potions",selected_item)
 
     elif choice == "basic attacks":
-      choice = input("Select a basic attack : push or love_dance ")
+      choice = input("Select a basic attack : 'push' or 'love_dance' ")
       #deals with typing errors or invalid answers
       while choice not in ["push","love_dance"]:
         choice = input("You miss typed your attack. Select a basic attack : push or love_dance  ")
@@ -139,7 +139,12 @@ def fight(Player,enemy_type):
   print("A confrontation has been declared between you and "+ str(enemy_name )
         + "... You'll have to fight to reach your ultimate goal : enjoy the music on the main stage."+ "\n" 
         + "Your opponent has " + str(enemy_life) + " points of life" + "\n"
-        + " Use your attacks, items and potions wisely... Some items and potions can only be found once in this wonderful adventure. ")
+        + """ Use your attacks, items and potions wisely... Some items and potions can only be found once in this wonderful adventure.
+
+        About the objects, the stop sign ('sign') is used as a defense item. It skips the opponent's turn. The other are attack objects.
+
+        You just have on action per round. 
+          """)
   
   if enemy_type == "Security":
     print("You've encounter your last confrontation. Fight well lill troubadour")
@@ -174,13 +179,13 @@ def fight(Player,enemy_type):
 
       else :
         enemy_life -= Objects[choice_player[1]] # inflige des déagats d'attaques à l'ennemi
-        print("You used " + choice_player[1] + " as an attack object")
-        print(str(enemy_name) + " lost " + str(Objects[choice_player[1]]) + " points of life")
+        print("\n"+"You used " + choice_player[1] + " as an attack object")
+        print("\n"+str(enemy_name) + " lost " + str(Objects[choice_player[1]]) + " points of life")
         if enemy_life > 0 :
-          print(">> " +enemy_name + " has now " + str(enemy_life) + " points of life")
+          print("\n"+">> " +enemy_name + " has now " + str(enemy_life) + " points of life")
         else : 
-          print(">> " + enemy_name + " has now 0 points of life ")
-        print("In your inventory there is  " + str(Player["Inventory"]["Objects"][choice_player[1]])+ " "+ choice_player[1]+ " remaining")
+          print("\n"+">> " + enemy_name + " has now 0 points of life ")
+        print("\n"+"In your inventory there is  " + str(Player["Inventory"]["Objects"][choice_player[1]])+ " "+ choice_player[1]+ " remaining")
 
 
 
@@ -188,15 +193,15 @@ def fight(Player,enemy_type):
       chances_of_hit = randint(0,100) #emulate a dice throw to see if your attack reached the opponent
       if chances_of_hit < Player["Attacks"][choice_player[1]][1]:
         enemy_life -= Player["Attacks"][choice_player[1]][0]
-        print("You used " + choice_player[1] + " attack")
-        print(enemy_name + " lost " + str(Player["Attacks"][choice_player[1]][0]) + " points of life")
+        print("\n"+"You used " + choice_player[1] + " attack")
+        print("\n"+enemy_name + " lost " + str(Player["Attacks"][choice_player[1]][0]) + " points of life")
         if enemy_life > 0 :
-          print(">> " + enemy_name + " has now " + str(enemy_life) + " points of life")
+          print("\n"+">> " + enemy_name + " has now " + str(enemy_life) + " points of life")
         else : 
-          print(">> " + enemy_name + " has now 0 points of life ")
+          print("\n"+">> " + enemy_name + " has now 0 points of life ")
       else :
-        print("you missed your shot")
-        print(">> " + enemy_name + " has still " + str(enemy_life) + " points of life")
+        print("\n"+"you missed your shot")
+        print("\n"+">> " + enemy_name + " has still " + str(enemy_life) + " points of life")
 
 
 
@@ -207,11 +212,11 @@ def fight(Player,enemy_type):
       enemy_choice = list(enemy_attacks.keys())[randint(0,2)]
     else:
       enemy_choice = list(enemy_attacks.keys())[randint(0,1)] # enemy_choice = string de l'attack
-    print(enemy_choice)
+    #print(enemy_choice)
 
     #skip enemy's turn if sign used
     if choice_player == ("Objects","sign"):
-      print("The sign skips the " + enemy_name + "'s turn")
+      print("\n"+"The sign skips the " + enemy_name + "'s turn")
 
     else : 
       chances_of_hit = randint(0,100) # simulate a dice throw to see if the attack succeeds 
@@ -224,13 +229,13 @@ def fight(Player,enemy_type):
             print("Breit took all your sweet candies")
           else:
             Player["life"] -= enemy_attacks[enemy_choice][0] #retire 3 pv
-            print("Breit hasn't found any sweet substance on you, but he shook you very well so you loose 3 points of life")
-            print(">> You have " + str(Player["life"])+ " points of life remaining")
+            print("\n"+"Breit hasn't found any sweet substance on you, but he shook you very well so you loose 3 points of life")
+            print("\n"+">> You have " + str(Player["life"])+ " points of life remaining")
         else : 
           Player["life"] -= enemy_attacks[enemy_choice][0] #attack dammages
           print(enemy_name + " successfully used "+ enemy_choice + " on you")
-          print("You lost " + str( enemy_attacks[enemy_choice][0])+ " points of life")
-          print(">> You have " + str(Player["life"])+ " points of life remaining")
+          print("\n"+"You lost " + str( enemy_attacks[enemy_choice][0])+ " points of life")
+          print("\n"+">> You have " + str(Player["life"])+ " points of life remaining")
           
       elif enemy_life <= 0 : 
         print(enemy_name + " is exhausted and leave you alone. You are victorious")
@@ -303,19 +308,28 @@ def move(start_position):
         # ---------------------------------------------
         # Fight function call
         if Map[current_position]["fight"][0] == True:
-           dice = randint(0,100) #some fights don't appear all the time
+           dice = 95 #randint(0,100) #some fights don't appear all the time
+           print(dice)
+           Map[current_position]["fight"][0] = False
+ 
 
-           if dice <= Map[current_position]["fight"][2] :
+           if dice <= Map[current_position]["fight"][2] : 
             print(dice) # à retirer, juste pour le debug
             Player["life"] = fight(Player,str(Map[current_position]["fight"][1]))
+
            elif current_position == "B5" and dice > Map[current_position]["fight"][2]:
               print("For some strange reason, Breit is moved by your story and let himself be corrubted. Breit let you through to enjoy the concert.")
 
-          #loot the drunk crowd dropped objects
-           print("""After plenty of dodging and squeezin through, you finally managed to get past festival-goer who was blocking your way. You decide to snatch their cashless wristband and their beer as payback.""")          
-           if Map[current_position]["fight"][1] == "Drunk_crowd":
+              #loot the drunk crowd dropped objects
+                     
+           if Map[current_position]["fight"][1] == "Drunk_crowd" :
+             print("""After plenty of dodging and squeezin through, you finally managed to get past festival-goer who was blocking your way. You decide to snatch their cashless wristband and their beer as payback.""")
              Player["Inventory"]["Potions"]["beer"]+=1
              Player["Inventory"]["cashless"]+=1 
+          
+            
+           
+
         # ---------------------------------------------
          # Display the description of the current room
         print(Map[current_position]["direction_print"])
@@ -350,12 +364,12 @@ def move(start_position):
             
             # If no valid choice is made, call the move function
             #elif choiceBuyDrink == "no":
-                #break 
+                #break -+
         # ---------------------------------------------
         # If the player is at "B3" or "D5" and there are objects in the room
         if current_position == "B3" and Map[current_position]["object"][0] == True or current_position == "D5" and Map[current_position]["object"][0] == True:
             print(f"Psst psst. Someone offers you a {Map[current_position]['object'][2]}, would you like to take it ?")
-            choice = input("yes or no ").lower()
+            choice = input("yes or no "+ "\n").lower()
             while choice not in ["yes", "no"]:
                 choice = input("You made a typo. yes or no ").lower()
             
@@ -376,7 +390,7 @@ def move(start_position):
         stage_display(4)
         # ---------------------------------------------
         # Ask the player for the next direction
-        choice = input("Which direction do you want to take?" + str(Map[current_position]["print_possible_answers"]) + "\n").lower()
+        choice = input(" Which direction do you want to take ?" + str(Map[current_position]["print_possible_answers"]) + "\n").lower()
         while choice not in Map[current_position]["print_possible_answers"]:
                 choice = input("You made a typo. Which direction do you want to take?" + str(Map[current_position]["print_possible_answers"])+ "\n").lower()
         

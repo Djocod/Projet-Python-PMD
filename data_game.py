@@ -97,7 +97,7 @@ Map = {
           "visited" : False,
           "direction_print" : 
               """
-              At your arrival, a member of the staff greets you with a hand fan and a free cold beer (the dream).  
+              At your arrival, a member of the staff greets you with a hand fan and a free cold beer (the dream ...).  
 
               Now the festival vibe has fully taken over, and you're feeling the joy of the moment.
               Still, you're more determined than ever to reach the Main Stage.
@@ -107,8 +107,7 @@ Map = {
               You are at the junction.
 
               At your left :    In the distance, you can hear the sound of what seems to be a stage 
-                                A group of people is gathered in front of it.
-              
+                               
               At your right : It's the beginning of the crowd.
 
               """,
@@ -131,22 +130,24 @@ Map = {
         """,
         },
     "C1" : {
-        "room_name" :"crowd_1",
+        "room_name" :"beginning of the crowd",
         "coordinates":(3,1),
         "object" : [False,False,False,False],
         "possible_box_directions":["C2","to heal","quit"],
         "print_possible_answers" :["go further in the crowd","to heal","quit"],
-        "fight" : [True, "Drunk_crowd",100], #100%
+        "fight" : [False, "Drunk_crowd",100], #100% #A MODIFIER C'EST POUR LE DEBUG
         "visited" : False,
         "direction_print" : """
 
                 You're walking in the beginning of the crowd. You pass by stalls full of clothes and jewelry, the festival buzzing with life. 
                 It's summer, everything feels alive and chaotic. 
 
+                further in the crowd seems to be only one way to the Main Stage.
+
 """,
         },
     "C2" : {
-        "room_name" :"hallway_1",
+        "room_name" :"Corridor",
         "coordinates":(3,2),
         "object" :[True,False,False,"cup"],
         "possible_box_directions":["D2","C3","to heal","quit"],
@@ -156,13 +157,15 @@ Map = {
         "direction_print" : """
 
         
-        Do you need a break ? The risk reduction stand is just at your right and the 'safer staff' seems nice. 
+        The risk reduction stand is just at your right and the 'safer staff' seems nice. 
         There's even a lonely cup on the floor waiting to be noticed.
+
+        Do you need a break at the safer zone ? 
 
         """,
         },
     "D2" : {
-        "room_name" :"safer_zone",
+        "room_name" :"safer zone",
         "coordinates":(4,2),
         "object" : [True,False,"water",False],
         "possible_box_directions":["C2","to heal","quit"],
@@ -174,6 +177,8 @@ Map = {
                 You've chatted with the staff and they gave you a bottle of water ! 
 
                 Now that you've rested, you can go back to the crowd and finish you quest.
+
+                From Here, you can only return to the crowd.
 """,
         },
     "C3" : {
@@ -181,8 +186,8 @@ Map = {
         "coordinates":(3,3),
         "object" :[True,"decat_chair",False,False],
         "possible_box_directions":["B3","C4","to heal","quit"],
-        "print_possible_answers" :["direction to the bar","go further in the crowd","to heal","quit"],
-        "fight" : [False, "Drunk_crowd",30], # 30% chances to have this fight
+        "print_possible_answers" :["to the bar","divination tent","to heal","quit"],
+        "fight" : [True, "Drunk_crowd",30], # 30% chances to have this fight
         "visited" : False,
         "direction_print" : """
 
@@ -218,12 +223,13 @@ Map = {
         "possible_box_directions":["B3","to heal","quit"],
         "print_possible_answers" :["return to the mini funfair","to heal","quit"],
         "fight" : [False],
+        "visited" : False,
         "direction_print" : """
         
                 Congrats, you've reached the bar. Unfortunately, this is not the end of your quest.
                 However you can still stop by to refresh yourself with a cold beer or fresh water.
 
-                From here, you can only retrace your steps.
+                From here, you can only retrace your steps and return to the mini funfair.
 """,
         },
     "C4" : {
@@ -233,6 +239,7 @@ Map = {
         "possible_box_directions":["C5","to heal","quit"],
         "print_possible_answers" :["go further into the music","to heal","quit"],
         "fight" : [False],
+        "visited" : False,
         "direction_print" : """
 
                 Out of curiousity, you ask the fortune teller to give you a prediction. 
@@ -241,7 +248,7 @@ Map = {
                     Once in a fleeting moment, the hard stone of duty may crack just enough for compassion to slip through.'
 
 
-                But it's just gibberish, won't be of any use.
+                But it's just gibberish to you.
                 
                 You begin to hear the music in the far, the goal is near. The main stage is definitely forward !
 """,
@@ -252,6 +259,7 @@ Map = {
         "object" : [False, False, False ,False],
         "possible_box_directions":["B5","D5","to heal","quit"],
         "print_possible_answers" :["go to security","right","to heal","quit"],
+        "visited" : False,
         "direction_print" : """
 
                 You've reached a crossroad marked by a banner. 
@@ -270,6 +278,7 @@ Map = {
         "possible_box_directions":["C5","to heal","quit"],
         "print_possible_answers" :["go back to the banner crossroad","to heal","quit"],
         "fight" : [False],
+        "visited" : False,
         "direction_print" : """
         
         Nur Deutsche hier. Du verstehst nichts aber du sprichst mit jemanden der nett aussieht.
@@ -284,10 +293,12 @@ Map = {
         "object" : [False, False, False ,False],
         "possible_box_directions":["B6","to heal","quit"],
         "print_possible_answers" :["go main","to heal","quit"],
-        "fight" : [True, "Security",90], 
+        "fight" : [True, "Security",90], #A MODIFIER C'EST POUR LE DEBUG
+        "visited" : False,
         "direction_print" :"""
 
-        The security guy spots you — you look way too suspicious. He starts questioning you. 
+        
+        Bye Bye Breit, love you !
         
         """, 
         },
@@ -298,10 +309,12 @@ Map = {
         "possible_box_directions":["to heal","quit"],
         "print_possible_answers" :["to heal","quit"],
         "fight" : [False],
+        "visited" : False,
         "direction_print" : """
         
         At last, you stand before the Main Stage — massive, loud, and brighter than anything you've seen tonight. 
         Your journey ends here. 
+
         Good job ! You're a very unhethical person ;))
         
         """,
