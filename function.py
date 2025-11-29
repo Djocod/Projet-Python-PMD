@@ -1,10 +1,10 @@
-from data_game import Player, Map, Objects, Drunk_crowd, Security, start_position
+from data_game import Player, Map, Objects, Drunk_crowd, Security
 from random import randint
 import matplotlib.pyplot as plt
 
 # ================================================
 
-def stage_display():
+def stage_display(nb):
 
     stages= [
     f""" 6
@@ -59,7 +59,7 @@ def stage_display():
     """
     ]
 
-    #print(stages[6 - nb])
+    print(stages[6 - nb])
 
 # ================================================
 # Functions for the fights
@@ -243,9 +243,9 @@ def fight(Player,enemy_type):
       else:
         print(enemy_name + " tried to use " + enemy_choice + " on you but miserably failed :( ")
 
-    if Player["life"] == 0 :
+    if Player["life"] <= 0 :
       print("shit you're dead")    
-      return "Quit"
+      return Player["life"]
 
 # ================================================
 # Function to collect objects in the current room
@@ -294,35 +294,52 @@ def objects_in_the_room(current_position):
 def move(start_position):
     global current_position
     current_position = start_position
+    player_path = []
     
     # While the player is alive, hasn't reached "B6", and hasn't quit
-    while Player["life"] > 0 or current_position != "B6" or quit == False:
+    while Player["life"] > 0 and current_position != "B6":
         # ---------------------------------------------
 
-        #display the map in a plot 
-        coordinates_of_the_rooms = [Map[room]["coordinates"]for room in Map]
-        X = [coordinates_of_x[0] for coordinates_of_x in coordinates_of_the_rooms]
-        y = [coordinates_of_y[1] for coordinates_of_y in coordinates_of_the_rooms]
-        plot_map(current_position,X,y)
+        #####display the map in a plot here
+       
+        
 
         # ---------------------------------------------
         # Fight function call
         if Map[current_position]["fight"][0] == True:
-           dice = 95 #randint(0,100) #some fights don't appear all the time
+           dice = randint(0,100) #some fights don't appear all the time
            print(dice)
            Map[current_position]["fight"][0] = False
  
 
            if dice <= Map[current_position]["fight"][2] : 
             print(dice) # à retirer, juste pour le debug
-            Player["life"] = fight(Player,str(Map[current_position]["fight"][1]))
+            Player["life"] = fight(Player,str(Map[current_position]["fight"][1])) #take enemy type as an argument
 
-           elif current_position == "B5" and dice > Map[current_position]["fight"][2]:
+            if Player["life"] <= 0 : 
+              choice = input("Do you want play again ? yes or no."+ "\n")
+              if choice == "yes": 
+                Player["life"] = 30
+                Player["Inventory"]["Objects"] = {key: 0 for key in Player["Inventory"]["Objects"]} ### PAS ENCOREE BON
+                Player["Inventory"]["Potions"] = {key: 0 for key in Player["Inventory"]["Potions"]}
+                Player["Inventory"]["cashless"] = 0
+                Player["Inventory"]["cup"] = 0
+                Map[current_position]["object"][0]= True,
+                Map[current_position]["fight"][0]= True,
+
+                return move(start_position)
+              
+              else :
+                 print("Thank you for your participation !")
+                 return
+
+
+           elif current_position == "B5" and dice > Map[current_position]["fight"][2]and Player["life"]> 0:
               print("For some strange reason, Breit is moved by your story and let himself be corrubted. Breit let you through to enjoy the concert.")
 
               #loot the drunk crowd dropped objects
                      
-           if Map[current_position]["fight"][1] == "Drunk_crowd" :
+           if Map[current_position]["fight"][1] == "Drunk_crowd" and Player["life"]> 0:
              print("""After plenty of dodging and squeezin through, you finally managed to get past festival-goer who was blocking your way. You decide to snatch their cashless wristband and their beer as payback.""")
              Player["Inventory"]["Potions"]["beer"]+=1
              Player["Inventory"]["cashless"]+=1 
@@ -341,7 +358,7 @@ def move(start_position):
         # -----------------------------------------------
         # If the player is at the bar and has enough resources, offer drinks
         choiceBuyDrink = 0
-        while Player["life"] > 0 and current_position == "A3" and choiceBuyDrink != "no":
+        while current_position == "A3" and choiceBuyDrink != "no":
         # Ask the player what they want to buy      
             choiceBuyDrink = input("What can I get you, troubadour? Exchange your 'cashless'for a beer or your 3 'cup' for a water drink or type 'no' to move on" + "\n").lower()
             while choiceBuyDrink not in ["cashless", "cup","no"]:
@@ -392,7 +409,7 @@ def move(start_position):
         # Ask the player for the next direction
         choice = input(" Which direction do you want to take ?" + str(Map[current_position]["print_possible_answers"]) + "\n").lower()
         while choice not in Map[current_position]["print_possible_answers"]:
-                choice = input("You made a typo. Which direction do you want to take?" + str(Map[current_position]["print_possible_answers"])+ "\n").lower()
+           choice = input("You made a typo. Which direction do you want to take?" + str(Map[current_position]["print_possible_answers"])+ "\n").lower()
         
         
         if choice == "quit": 
@@ -422,21 +439,52 @@ def move(start_position):
             stage_display(5)
         else:
             # By default, move the player to the next position
-            index = Map[current_position]["print_possible_answers"].index(choice)
-            current_position = Map[current_position]["possible_box_directions"][index]
+            index = Map[current_position]["print_possible_answers"].index(choice) #print de direction
+            previous_position = current_position #pour le plot
+            Map[current_position]["visited"] = True
+            current_position = Map[current_position]["possible_box_directions"][index] #chance la direction
+            if current_position in Map:
+               player_path.append((previous_position,current_position))
+            
+
             
           
-      
-        if Player["life"] <= 0 : 
-          choice = input("Do you want play again ? yes or no.", "\n")
-          if choice == "yes": 
-            return
+
         # ---------------------------------------------
 
 
 
-def plot_map(current_position,X,y): #À PEAUFINER
+def plot_map(current_position,Map,player_path): #À PEAUFINER
+
+  coordinates_of_the_rooms = [Map[room]["coordinates"]for room in Map]
+  names_of_the_rooms = [Map[room]["room_name"]for room in Map]
+
+  X = [coordinates_of_x[0] for coordinates_of_x in coordinates_of_the_rooms]
+  y = [coordinates_of_y[1] for coordinates_of_y in coordinates_of_the_rooms]
   plt.figure(figsize=(8,6))
   plt.scatter(X,y, c="b", s=10)
   plt.scatter(Map[current_position]["coordinates"][0],Map[current_position]["coordinates"][1],c="r",s=50)
+  
+  #plot lines to show the player's path
+  for room_a, room_b in player_path:
+    x1,y1 = Map[room_a]["coordinates"]
+    x2,y2 = Map[room_b]["coordinates"]
+    plt.plot([x1,x2],[y1,y2],linewidth=0.5,color="gray")
+
+  #plot names of the visited rooms
+  for room in Map:
+    if Map[room]["visited"]:
+      x,y = Map[room]["coordinates"]
+      room_name = Map[room]["room_name"]
+      plt.text(x+0.05, y+0.1,room_name,fontsize=10,color="black")
+
+  #plot title of the graph
+  plt.title("Map of J.M.J festival", color="black")
+
+  #remove the numbers next to x and y axes
+  plt.xticks([])
+  plt.yticks([])
+
+
+
   plt.show()
