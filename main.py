@@ -1,6 +1,6 @@
 import webbrowser 
 from function import move
-from data_game import start_position
+
 
 def about():
   print("This game was developped by Julie DANDRIMONT, Jordan FRANCOUAL and Melanie GASSER")
@@ -30,7 +30,7 @@ def menu():
                       Quit
   """)
   if choice == "Start Game":
-    move(start_position)
+    move()
   elif choice == "About":
     about()
   elif choice == "Quit":

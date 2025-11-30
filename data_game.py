@@ -51,7 +51,7 @@ Objects = {"sign":2,
 Map = {
     "B0" : {
           "room_name" :"Tuto",
-          "coordinates":(1,1),
+          "coordinates":(1,0),
           "object" : [False, False, False ,False],
           "possible_box_directions":["B1","C1","quit"],
           "print_possible_answers" :["enter the festival"],
@@ -89,7 +89,7 @@ Map = {
 
     "B1" : {
           "room_name" :"Entrance",
-          "coordinates":(2,1),
+          "coordinates":(1,1),
           "object" : [ True, "fan", False ,"cup" ],
           "possible_box_directions":["A1","C1","to heal","quit"],
           "print_possible_answers" :["left","crowd","to heal","quit"],
@@ -114,7 +114,7 @@ Map = {
       },
     "A1" : {
         "room_name" :"Stage",
-        "coordinates":(1,1),
+        "coordinates":(0,1),
         "object" :[True, "sign","beer","cup"],
         "possible_box_directions":["B1","to heal","quit"],
         "print_possible_answers" :["right","to heal","quit"],
@@ -131,11 +131,11 @@ Map = {
         },
     "C1" : {
         "room_name" :"beginning of the crowd",
-        "coordinates":(3,1),
+        "coordinates":(2,1),
         "object" : [False,False,False,False],
         "possible_box_directions":["C2","to heal","quit"],
         "print_possible_answers" :["go further in the crowd","to heal","quit"],
-        "fight" : [True, "Drunk_crowd",100], #100% 
+        "fight" : [False, "Drunk_crowd",100], #100% A MODIFIER C'EST POUR LE DEBUG
         "visited" : False,
         "direction_print" : """
 
@@ -148,7 +148,7 @@ Map = {
         },
     "C2" : {
         "room_name" :"Corridor",
-        "coordinates":(3,2),
+        "coordinates":(2,2),
         "object" :[True,False,False,"cup"],
         "possible_box_directions":["D2","C3","to heal","quit"],
         "print_possible_answers" :["yes","no","to heal","quit"],#input == no -> C3 else D2
@@ -166,7 +166,7 @@ Map = {
         },
     "D2" : {
         "room_name" :"safer zone",
-        "coordinates":(4,2),
+        "coordinates":(3,2),
         "object" : [True,False,"water",False],
         "possible_box_directions":["C2","to heal","quit"],
         "print_possible_answers" :["return to crowd","to heal","quit"],
@@ -183,11 +183,11 @@ Map = {
         },
     "C3" : {
         "room_name" :"moving sculpture",
-        "coordinates":(3,3),
+        "coordinates":(2,3),
         "object" :[True,"decath_chair",False,False],
         "possible_box_directions":["B3","C4","to heal","quit"],
         "print_possible_answers" :["to the bar","divination tent","to heal","quit"],
-        "fight" : [False, "Drunk_crowd",30], # 30% chances to have this fight
+        "fight" : [False, "Drunk_crowd",30], # 30% chances to have this fight A MODIFIER C'EST POUR LE DEBUG
         "visited" : False,
         "direction_print" : """
 
@@ -201,7 +201,7 @@ Map = {
         },
     "B3" : {
         "room_name" :"mini funfair",
-        "coordinates":(2,3),
+        "coordinates":(1,3),
         "object" : [True, False,"sweet_treat",False],
         "possible_box_directions":["A3","C3","to heal","quit"],
         "print_possible_answers" :["bar","return to the moving statue","to heal","quit"],
@@ -218,7 +218,7 @@ Map = {
         },
     "A3" : {
         "room_name" :"bar",
-        "coordinates" : (1,3),
+        "coordinates" : (0,3),
         "object" :[True, False, False ,"cashless"], #if casheless == ou > beer price : 15
         "possible_box_directions":["B3","to heal","quit"],
         "print_possible_answers" :["return to the mini funfair","to heal","quit"],
@@ -234,7 +234,7 @@ Map = {
         },
     "C4" : {
         "room_name" :"divination tent",
-        "coordinates" : (3,4),
+        "coordinates" : (2,4),
         "object" :[False, False, False ,False],
         "possible_box_directions":["C5","to heal","quit"],
         "print_possible_answers" :["go further into the music","to heal","quit"],
@@ -255,7 +255,7 @@ Map = {
         },
     "C5" : {
         "room_name" :"banner crossroad",
-        "coordinates" : (3,5),
+        "coordinates" : (2,5),
         "object" : [False, False, False ,False],
         "possible_box_directions":["B5","D5","to heal","quit"],
         "print_possible_answers" :["go to security","right","to heal","quit"],
@@ -273,7 +273,7 @@ Map = {
         },
     "D5" : {
         "room_name" :"camp fire",
-        "coordinates" : (4,5),
+        "coordinates" : (3,5),
         "object" : [True, "decath_chair"," sweet_treat" ,False],
         "possible_box_directions":["C5","to heal","quit"],
         "print_possible_answers" :["go back to the banner crossroad","to heal","quit"],
@@ -289,11 +289,11 @@ Map = {
         },
     "B5" : {
         "room_name" :"security",
-        "coordinates" : (2,5),
+        "coordinates" : (1,5),
         "object" : [False, False, False ,False],
         "possible_box_directions":["B6","to heal","quit"],
         "print_possible_answers" :["go main","to heal","quit"],
-        "fight" : [True, "Security",90], #A MODIFIER C'EST POUR LE DEBUG
+        "fight" : [False, "Security",90], #A MODIFIER C'EST POUR LE DEBUG
         "visited" : False,
         "direction_print" :"""
 
@@ -304,7 +304,7 @@ Map = {
         },
     "B6" : {
         "room_name" :"main_stage",
-        "coordinates" : (2,6),
+        "coordinates" : (1,6),
         "object" : [False, False, False ,False],
         "possible_box_directions":["to heal","quit"],
         "print_possible_answers" :["to heal","quit"],
@@ -319,7 +319,10 @@ Map = {
         
         """,
         },
-    "B7" : { #End square that is not played!
+    "B7" : { 
+        "room_name" :"End of the game",
+        "coordinates" : (1,7),
+        "visited" : False,
         },
 }
-start_position = "B0"
+
