@@ -410,7 +410,7 @@ def move(start_position):
 
         if current_position =="C3" and Map[current_position]["visited"]== False:
            print(" Someone catches your attention to the left.")
-        # Enjoy the suprise !!!
+        # Enjoy the surprise !!!
         if current_position == "B6": 
           print("You've made it to the main stage, enjoy the festival!")
           webbrowser.open("https://urlr.me/vbfGyk")
