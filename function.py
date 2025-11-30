@@ -1,6 +1,7 @@
+import webbrowser 
 from data_game import Player, Map, Objects, Drunk_crowd, Security
 from random import randint
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 # ================================================
 
@@ -295,94 +296,69 @@ def move(start_position):
     global current_position
     current_position = start_position
     player_path = []
-  
-    # While the player is alive, hasn't reached "B6", and hasn't quit
-    while Player["life"] > 0 and current_position != "B6":
+    
+    # While the player is alive, hasn't reached "B7", and hasn't quit
+    while Player["life"]> 0 and current_position != "B7":
         # ---------------------------------------------
 
         #####display the map in a plot here
        
-        
-
         # ---------------------------------------------
         # Fight function call
         if Map[current_position]["fight"][0] == True:
-           dice = randint(0,100) #some fights don't appear all the time
-           print(dice)
-           Map[current_position]["fight"][0] = False
+          dice = randint(0,100) #some fights don't appear all the time
+          print(dice)
+          Map[current_position]["fight"][0] = False
 
 
-           if dice <= Map[current_position]["fight"][2] : 
+          if dice <= Map[current_position]["fight"][2] : 
             print(dice) # à retirer, juste pour le debug
             Player["life"] = fight(Player,str(Map[current_position]["fight"][1])) #take enemy type as an argument
-
-            if Player["life"] <= 0 : 
-              choice = input("Do you want play again ? yes or no."+ "\n")
-              if choice == "yes": 
-                Player["life"] = 30
-                Player["Inventory"]["Objects"] = {key: 0 for key in Player["Inventory"]["Objects"]} ### PAS ENCOREE BON
-                Player["Inventory"]["Potions"] = {key: 0 for key in Player["Inventory"]["Potions"]}
-                Player["Inventory"]["cashless"] = 0
-                Player["Inventory"]["cup"] = 0
-                Map[current_position]["object"][0]= True,
-                Map[current_position]["fight"][0]= True,
-
-                return move(start_position)
-              
-              else :
-                 print("Thank you for your participation !")
-                 return
-            #We check if the player is still alive; if so, we ask them to choose between 
-            #restarting the game or returning to the main menu.
-            if Player["life"] <= 0 : 
-              choice = input("Do you want play again ? yes or no." + "\n")
-            # If yes, his inventory returns to 0, the fight boxes are reset to 
-            #True, and the same applies to objects.
-              if choice == "yes": 
-                Player["life"] = 30
-                
-                for key in Player["Inventory"]["Objects"]:
-                  Player["Inventory"]["Objects"][key] = 0
-                for key in Player["Inventory"]["Potions"]:
-                  Player["Inventory"]["Potions"][key] = 0
-                  
-                Player["Inventory"]["cashless"] = 0
-                Player["Inventory"]["cup"] = 0
-                
-                #I request that the visited properties be set to False.        
-                for room in Map:
-                  Map[room]["visited"] = False
-                
-                #list of object cases that must be reset to true
-                list_room_objet_true =["B1","A1","C2","D2,","C3","B3","A3","D5"]
-                for room in list_room_objet_true:
-                  Map[room]["object"][0]= True
-                  
-                #list of fight boxes that must be re-entered true
-                list_room_fight = ["C1","C3","B5"]
-                for room in list_room_fight:
-                  Map[room]["fight"][0]= True,
-                  
-                current_position = "B0"
-                return move(current_position)
-                  
-              elif choice == "no":
-                print("Thank you for your participation !")
-                return
-
-
-           elif current_position == "B5" and dice > Map[current_position]["fight"][2]and Player["life"]> 0:
-              print("For some strange reason, Breit is moved by your story and let himself be corrubted. Breit let you through to enjoy the concert.")
+          elif current_position == "B5" and dice > Map[current_position]["fight"][2]and Player["life"]> 0:
+            print("For some strange reason, Breit is moved by your story and let himself be corrubted. Breit let you through to enjoy the concert.")
 
               #loot the drunk crowd dropped objects
                      
-           if Map[current_position]["fight"][1] == "Drunk_crowd" and Player["life"]> 0:
-             print("""After plenty of dodging and squeezin through, you finally managed to get past festival-goer who was blocking your way. You decide to snatch their cashless wristband and their beer as payback.""")
-             Player["Inventory"]["Potions"]["beer"]+=1
-             Player["Inventory"]["cashless"]+=1 
-          
-            
-           
+          if Map[current_position]["fight"][1] == "Drunk_crowd" and Player["life"]> 0:
+            print("""After plenty of dodging and squeezin through, you finally managed to get past festival-goer who was blocking your way. You decide to snatch their cashless wristband and their beer as payback.""")
+            Player["Inventory"]["Potions"]["beer"]+=1
+            Player["Inventory"]["cashless"]+=1 
+
+          #We check if the player is still alive; if so, we ask them to choose between 
+          #restarting the game or returning to the main menu.
+          if Player["life"] <= 0 : 
+            choice = input("Do you want play again ? yes or no." + "\n")
+          # If yes, his inventory returns to 0, the fight boxes are reset to 
+          #True, and the same applies to objects.
+            if choice == "yes": 
+              Player["life"] = 30
+              for key in Player["Inventory"]["Objects"]:
+                Player["Inventory"]["Objects"][key] = 0
+              for key in Player["Inventory"]["Potions"]:
+                Player["Inventory"]["Potions"][key] = 0
+              Player["Inventory"]["cashless"] = 0
+              Player["Inventory"]["cup"] = 0
+              
+              #I request that the visited properties be set to False.
+              list_room_visited_true =["B1","A1","C1","C2","D2","C3","B3","A3","C4","C5","D5","B5","B6"]        
+              for room in list_room_visited_true:
+                Map[room]["visited"] = False
+              
+              #list of object cases that must be reset to true
+              list_room_objet_true =["B1","A1","C2","D2","C3","B3","A3","D5"]
+              for room in list_room_objet_true:
+                Map[room]["object"][0]= True
+                
+              #list of fight boxes that must be re-entered true
+              list_room_fight = ["C1","C3","B5"]
+              for room in list_room_fight:
+                Map[room]["fight"][0]= True,
+              # Come back to the start 
+              current_position = "B0"
+              return move(current_position)
+            elif choice == "no":
+              print("Thank you for your participation !")
+              return
 
         # ---------------------------------------------
          # Display the description of the current room
@@ -434,9 +410,10 @@ def move(start_position):
 
         if current_position =="C3" and Map[current_position]["visited"]== False:
            print(" Someone catches your attention to the left.")
-                
+        # Enjoy the suprise !!!
         if current_position == "B6": 
           print("You've made it to the main stage, enjoy the festival!")
+          webbrowser.open("https://urlr.me/vbfGyk")
           return
 
         # ---------------------------------------------
@@ -491,37 +468,37 @@ def move(start_position):
 
 
 
-def plot_map(current_position,Map,player_path): #À PEAUFINER
+# def plot_map(current_position,Map,player_path): #À PEAUFINER
 
-  coordinates_of_the_rooms = [Map[room]["coordinates"]for room in Map]
-  names_of_the_rooms = [Map[room]["room_name"]for room in Map]
+#   coordinates_of_the_rooms = [Map[room]["coordinates"]for room in Map]
+#   names_of_the_rooms = [Map[room]["room_name"]for room in Map]
 
-  X = [coordinates_of_x[0] for coordinates_of_x in coordinates_of_the_rooms]
-  y = [coordinates_of_y[1] for coordinates_of_y in coordinates_of_the_rooms]
-  plt.figure(figsize=(8,6))
-  plt.scatter(X,y, c="b", s=10)
-  plt.scatter(Map[current_position]["coordinates"][0],Map[current_position]["coordinates"][1],c="r",s=50)
+#   X = [coordinates_of_x[0] for coordinates_of_x in coordinates_of_the_rooms]
+#   y = [coordinates_of_y[1] for coordinates_of_y in coordinates_of_the_rooms]
+#   plt.figure(figsize=(8,6))
+#   plt.scatter(X,y, c="b", s=10)
+#   plt.scatter(Map[current_position]["coordinates"][0],Map[current_position]["coordinates"][1],c="r",s=50)
   
-  #plot lines to show the player's path
-  for room_a, room_b in player_path:
-    x1,y1 = Map[room_a]["coordinates"]
-    x2,y2 = Map[room_b]["coordinates"]
-    plt.plot([x1,x2],[y1,y2],linewidth=0.5,color="gray")
+#   #plot lines to show the player's path
+#   for room_a, room_b in player_path:
+#     x1,y1 = Map[room_a]["coordinates"]
+#     x2,y2 = Map[room_b]["coordinates"]
+#     plt.plot([x1,x2],[y1,y2],linewidth=0.5,color="gray")
 
-  #plot names of the visited rooms
-  for room in Map:
-    if Map[room]["visited"]:
-      x,y = Map[room]["coordinates"]
-      room_name = Map[room]["room_name"]
-      plt.text(x+0.05, y+0.1,room_name,fontsize=10,color="black")
+#   #plot names of the visited rooms
+#   for room in Map:
+#     if Map[room]["visited"]:
+#       x,y = Map[room]["coordinates"]
+#       room_name = Map[room]["room_name"]
+#       plt.text(x+0.05, y+0.1,room_name,fontsize=10,color="black")
 
-  #plot title of the graph
-  plt.title("Map of J.M.J festival", color="black")
+#   #plot title of the graph
+#   plt.title("Map of J.M.J festival", color="black")
 
-  #remove the numbers next to x and y axes
-  plt.xticks([])
-  plt.yticks([])
+#   #remove the numbers next to x and y axes
+#   plt.xticks([])
+#   plt.yticks([])
 
 
 
-  plt.show()
+#   plt.show()

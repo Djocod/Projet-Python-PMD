@@ -135,7 +135,7 @@ Map = {
         "object" : [False,False,False,False],
         "possible_box_directions":["C2","to heal","quit"],
         "print_possible_answers" :["go further in the crowd","to heal","quit"],
-        "fight" : [False, "Drunk_crowd",100], #100% 
+        "fight" : [True, "Drunk_crowd",100], #100% 
         "visited" : False,
         "direction_print" : """
 
@@ -318,6 +318,8 @@ Map = {
         Good job ! You're a very unhethical person ;))
         
         """,
+        },
+    "B7" : { #End square that is not played!
         },
 }
 start_position = "B0"
