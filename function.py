@@ -295,7 +295,7 @@ def move(start_position):
     global current_position
     current_position = start_position
     player_path = []
-    
+  
     # While the player is alive, hasn't reached "B6", and hasn't quit
     while Player["life"] > 0 and current_position != "B6":
         # ---------------------------------------------
@@ -310,7 +310,7 @@ def move(start_position):
            dice = randint(0,100) #some fights don't appear all the time
            print(dice)
            Map[current_position]["fight"][0] = False
- 
+
 
            if dice <= Map[current_position]["fight"][2] : 
             print(dice) # à retirer, juste pour le debug
@@ -332,6 +332,43 @@ def move(start_position):
               else :
                  print("Thank you for your participation !")
                  return
+            #We check if the player is still alive; if so, we ask them to choose between 
+            #restarting the game or returning to the main menu.
+            if Player["life"] <= 0 : 
+              choice = input("Do you want play again ? yes or no." + "\n")
+            # If yes, his inventory returns to 0, the fight boxes are reset to 
+            #True, and the same applies to objects.
+              if choice == "yes": 
+                Player["life"] = 30
+                
+                for key in Player["Inventory"]["Objects"]:
+                  Player["Inventory"]["Objects"][key] = 0
+                for key in Player["Inventory"]["Potions"]:
+                  Player["Inventory"]["Potions"][key] = 0
+                  
+                Player["Inventory"]["cashless"] = 0
+                Player["Inventory"]["cup"] = 0
+                
+                #I request that the visited properties be set to False.        
+                for room in Map:
+                  Map[room]["visited"] = False
+                
+                #list of object cases that must be reset to true
+                list_room_objet_true =["B1","A1","C2","D2,","C3","B3","A3","D5"]
+                for room in list_room_objet_true:
+                  Map[room]["object"][0]= True
+                  
+                #list of fight boxes that must be re-entered true
+                list_room_fight = ["C1","C3","B5"]
+                for room in list_room_fight:
+                  Map[room]["fight"][0]= True,
+                  
+                current_position = "B0"
+                return move(current_position)
+                  
+              elif choice == "no":
+                print("Thank you for your participation !")
+                return
 
 
            elif current_position == "B5" and dice > Map[current_position]["fight"][2]and Player["life"]> 0:
