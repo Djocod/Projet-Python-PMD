@@ -8,12 +8,14 @@ Do not miss opportunities to collect items that will help you to either to stay 
 The goal is to make it to the main stage. 
 The game is designed to run directly within your terminal or command prompt, offering a retro, command-line experience.
 
-## Requirements :Before running the code
-    - Make sure matplotlib is installed:
+## Requirements : Before running the code
+
+- **Make sure matplotlib is installed** :
         ```bash
         pip install matplotlib
-    - when the map is plotted, the plot will open in an external window. Make sure to close it so you can advance in the game.
-    - In the about section you will see a link to the LinkedIn profiles of the editors of this game, make sure you are logged into your own LinkedIn so you can see the profiles.
+        ```
+- when the map is plotted, the plot will open in an external window. Make sure to close it so you can advance in the game.
+- In the about section you will see a link to the LinkedIn profiles of the editors of this game, make sure you are logged into your own LinkedIn so you can see the profiles.
 
 ## Features
 - **Player Inventory**: Manage objects, potions, and cashless items to survive and progress.
