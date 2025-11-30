@@ -67,14 +67,74 @@ def stage_display(nb):
 
 def select_attack(Player):
 
-  #will serve later for the tuto, deals with the case where the Inventory is empty
+  #wdeals with the case where the Inventory is empty
   if Player["Inventory"]["Objects"]["sign"]+Player["Inventory"]["Objects"]["decath_chair"]+ Player["Inventory"]["Objects"]["empty_water_bottle"]+Player["Inventory"]["Objects"]["fan"]+  Player["Inventory"]["Potions"]["water"]+Player["Inventory"]["Potions"]["beer"]+Player["Inventory"]["Potions"]["sweet_treat"]==0:
     print("You do not have found any items yet. Select a basic attack : Push or Love_dance ")
     choice = input().lower()
     while choice not in ["push","love_dance"]:
         choice = input("You miss typed your attack. Select a basic attack : push or love_dance  ")
     return ("Attacks",choice) #type and the choice
+  
+  elif Player["Inventory"]["Objects"]["sign"]+Player["Inventory"]["Objects"]["decath_chair"]+ Player["Inventory"]["Objects"]["empty_water_bottle"]+Player["Inventory"]["Objects"]["fan"]==0:
+    #deals with the case where there is no objects in the inventory
+    print("You do not have found any objects yet. Do you want to use potions or basic attacks ?  ")
+    choice = input().lower()
 
+    while choice not in ["potions","basic attacks"]:
+      choice = input("You miss typed your answer. Do you want to use potions or basic attacks ?  ").lower()
+
+    if choice == "potions":
+      print("Choose one of the objects of the following list"," ",Player["Inventory"]["Potions"])
+      selected_item = input()
+
+      #deals with typing errors or invalid answers
+      while selected_item not in ["water","beer","sweet_treat"] or Player["Inventory"]["Potions"][selected_item]==0 :
+        selected_item = input("please select a valid item  ").lower()
+
+      if Player["Inventory"]["Potions"][selected_item] > 0:
+        #drink water --> empty bottle as an attack object
+        if selected_item == "water":
+          print(Player["Inventory"]["Potions"][selected_item])
+          Player["Inventory"]["Objects"]["empty_water_bottle"] += 1
+        Player["Inventory"]["Potions"][selected_item] -= 1
+        return ("Potions",selected_item)
+      
+    elif choice == "basic attacks":
+      choice = input("Select a basic attack : 'push' or 'love_dance' ")
+      #deals with typing errors or invalid answers
+      while choice not in ["push","love_dance"]:
+        choice = input("You miss typed your attack. Select a basic attack : push or love_dance  ")
+      return ("Attacks",choice)
+    
+  elif Player["Inventory"]["Potions"]["water"]+Player["Inventory"]["Potions"]["beer"]+Player["Inventory"]["Potions"]["sweet_treat"]==0:
+    
+    #deals with the case where there is no potions in the inventory
+    print("You do not have found any potions yet. Do you want to use objects or basic attacks ?  ")
+    choice = input().lower()
+    while choice not in ["objects","basic attacks"]:
+      choice = input("You miss typed your answer. Do you want to use objects or basic attacks ?  ").lower()
+
+    if choice == "objects":
+      print("Choose one of the objects of the following list", Player["Inventory"]["Objects"])
+      selected_item = input().lower()
+
+      #deals with typing errors or invalid answers
+      while selected_item not in ["sign","decath_chair","fan","empty_water_bottle"] or Player["Inventory"]["Objects"][selected_item]== 0 :
+        selected_item = input("please select a valid object  ").lower()
+
+      #valid answer
+      if Player["Inventory"]["Objects"][selected_item] > 0:
+        Player["Inventory"]["Objects"][selected_item] -= 1
+        return ("Objects",selected_item)
+
+
+    elif choice == "basic attacks":
+      choice = input("Select a basic attack : 'push' or 'love_dance' ")
+      #deals with typing errors or invalid answers
+      while choice not in ["push","love_dance"]:
+        choice = input("You miss typed your attack. Select a basic attack : push or love_dance  ")
+      return ("Attacks",choice)
+    
   # Ask what action the player wants to do
   else:
     choice = input("Do you want to use 'objects' , 'potions' or 'basic attacks' ?  ").lower()
@@ -296,25 +356,25 @@ def move():
   global current_position
   current_position = "B0"
   player_path = []
+  game_on = True
 
-  
   plot_map(current_position,player_path)
 
-  while Player["life"]> 0 and current_position != "B7":
+  while Player["life"]> 0 and current_position != "B7" and game_on != False:
 
     if Map[current_position]["fight"][0] == True:
       dice = randint(0,100) #some fights don't appear all the time
-      print(dice)
-      Map[current_position]["fight"][0] = False
+      #print(dice)
 
       if dice <= Map[current_position]["fight"][2] : 
-        print(dice) # à retirer, juste pour le debug
+        #print(dice) # à retirer, juste pour le debug
         Player["life"] = fight(Player,str(Map[current_position]["fight"][1])) #take enemy type as an argument
+        Map[current_position]["fight"][0] = False # fight has occured, so we set it to false
+
       elif current_position == "B5" and dice > Map[current_position]["fight"][2]and Player["life"]> 0:
         print("For some strange reason, Breit is moved by your story and let himself be corrubted. Breit let you through to enjoy the concert.")
 
-          #loot the drunk crowd dropped objects
-                    
+          #loot the drunk crowd dropped objects   
       if Map[current_position]["fight"][1] == "Drunk_crowd" and Player["life"]> 0:
         print("""After plenty of dodging and squeezin through, you finally managed to get past festival-goer who was blocking your way. You decide to snatch their cashless wristband and their beer as payback.""")
         Player["Inventory"]["Potions"]["beer"]+=1
@@ -367,26 +427,34 @@ def move():
       # If the player is at the bar and has enough resources, offer drinks
       choiceBuyDrink = 0
       while current_position == "A3" and choiceBuyDrink != "no":
-      # Ask the player what they want to buy      
+        if Map[current_position]["object"][3] == "cashless":
+          print("""
+                You have found a Cashless !!
+          After chatting with a beautiful stranger, she generously
+          offers you a cashless payment to help you drown your sorrows.
+          As a bonus, you get her number.
+         06.34.46.21.64 ;)
+        """)
+          Map[current_position]["object"][3]= False      
           choiceBuyDrink = input("What can I get you, troubadour? Exchange your 'cashless'for a beer or your 3 'cup' for a water drink or type 'no' to move on" + "\n").lower()
-          while choiceBuyDrink not in ["cashless", "cup","no"]:
-              choiceBuyDrink = input("You made a typo. What can I get you, troubadour? Exchange your 'cashless' for a beer or your 3 'cup' for a water drink or type 'no' to move on" + "\n").lower()
-          
-          # If the player chooses "beer" and has enough cashless currency
-          if choiceBuyDrink == "cashless" and Player["Inventory"]["cashless"] >= 1:
-              Player["Inventory"]["cashless"] -= 1
-              Player["Inventory"]["Potions"]["beer"] += 1
-              stage_display(6)
-          
-          # If the player chooses "water" and has at least 3 cups
-          elif choiceBuyDrink == "cup":
-              if Player["Inventory"]["cup"] == 3:
-                  Player["Inventory"]["cup"] -= 3
-                  Player["Inventory"]["Potions"]["water"] += 1
-                  stage_display(6)
-              else : 
-                  print("You don't have enough cups!")
-          
+        while choiceBuyDrink not in ["cashless", "cup","no"]:
+            choiceBuyDrink = input("You made a typo. What can I get you, troubadour? Exchange your 'cashless' for a beer or your 3 'cup' for a water drink or type 'no' to move on" + "\n").lower()
+        
+        # If the player chooses "beer" and has enough cashless currency
+        if choiceBuyDrink == "cashless" and Player["Inventory"]["cashless"] >= 1:
+            Player["Inventory"]["cashless"] -= 1
+            Player["Inventory"]["Potions"]["beer"] += 1
+            stage_display(6)
+        
+        # If the player chooses "water" and has at least 3 cups
+        elif choiceBuyDrink == "cup":
+            if Player["Inventory"]["cup"] == 3:
+                Player["Inventory"]["cup"] -= 3
+                Player["Inventory"]["Potions"]["water"] += 1
+                stage_display(6)
+            else : 
+                print("You don't have enough cups!")
+        
           # If no valid choice is made, call the move function
           #elif choiceBuyDrink == "no":
               #break -+
@@ -425,8 +493,8 @@ def move():
     if choice == "quit": 
       answer = input("You are quitting the game, type yes to continue"+ "\n").lower()
       while answer != "yes":
-        answer = input("Please answer yes or no. Are you sure you want to quit ?"+ "\n").lower()
-        return
+        answer = input("Please answer yes. Are you sure you want to quit ?"+ "\n").lower()
+      game_on = False
       # ---------------------------------------------
       # Allow the player to heal using potions: OK!!!
     elif choice == "to heal":
