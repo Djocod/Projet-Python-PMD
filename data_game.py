@@ -1,10 +1,10 @@
 Player = {
-    "name" :"input",
+    "name" :"Hero",
     "life" : 30,
      "Inventory" : {"Objects" : {"sign": 0,
                                 "decath_chair": 0,
                                 "fan": 0,
-                                "empty_water_bottle":10, #POUR LE DEBUG A MODIFIER
+                                "empty_water_bottle":0, 
                                 },
                    "Potions" : {"water": 0,
                                 "beer": 0,
@@ -14,7 +14,7 @@ Player = {
                    "cup":0,
                   },
     "Attacks" : {
-        "push": [1,95], #POUR LE DEBUG A MODIFIER = 5
+        "push": [5,95], 
         "love_dance": [8,60],
     }
     }
@@ -97,7 +97,7 @@ Map = {
           "visited" : False,
           "direction_print" : 
               """
-              At your arrival, a member of the staff greets you with a hand fan and a free cold beer (the dream ...).  
+              At your arrival, a member of the staff greets you with a hand fan and a free eco cup (the dream ...).  
 
               Now the festival vibe has fully taken over, and you're feeling the joy of the moment.
               Still, you're more determined than ever to reach the Main Stage.
@@ -135,7 +135,7 @@ Map = {
         "object" : [False,False,False,False],
         "possible_box_directions":["C2","to heal","quit"],
         "print_possible_answers" :["go further in the crowd","to heal","quit"],
-        "fight" : [False, "Drunk_crowd",100], #100% A MODIFIER C'EST POUR LE DEBUG
+        "fight" : [True, "Drunk_crowd",100], #100% chance to have this fight
         "visited" : False,
         "direction_print" : """
 
@@ -187,7 +187,7 @@ Map = {
         "object" :[True,"decath_chair",False,False],
         "possible_box_directions":["B3","C4","to heal","quit"],
         "print_possible_answers" :["to the bar","divination tent","to heal","quit"],
-        "fight" : [False, "Drunk_crowd",30], # 30% chances to have this fight A MODIFIER C'EST POUR LE DEBUG
+        "fight" : [True, "Drunk_crowd",30], # 30% chances to have this fight 
         "visited" : False,
         "direction_print" : """
 
@@ -293,7 +293,7 @@ Map = {
         "object" : [False, False, False ,False],
         "possible_box_directions":["B6","to heal","quit"],
         "print_possible_answers" :["go main","to heal","quit"],
-        "fight" : [False, "Security",90], #A MODIFIER C'EST POUR LE DEBUG
+        "fight" : [True, "Security",90], #90% , 10% chance to be bribded 
         "visited" : False,
         "direction_print" :"""
 

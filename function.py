@@ -19,15 +19,16 @@ def stage_display(nb):
     -------------------------
     """,
     f""" 4
-    -----------------------------------
-    |Life : {Player["life"]}       |Position : {Map[current_position]["room_name"]}
-    |Objects:          | Potions :     |
-    -----------------------------------
-    |Sign         : {Player["Inventory"]["Objects"]["sign"]} |Water       : {Player["Inventory"]["Potions"]["water"]} |
-    |Decat_chair  : {Player["Inventory"]["Objects"]["decath_chair"]} |Beer        : {Player["Inventory"]["Potions"]["beer"]} |
-    |Fan          : {Player["Inventory"]["Objects"]["fan"]} |sweet treat : {Player["Inventory"]["Potions"]["sweet_treat"]} |
-    -----------------------------------
-    |Exchange : Cashless : {Player["Inventory"]["cashless"]} / Cup : {Player["Inventory"]["cup"]} |
+    ------------------------------------------------
+    |Life : {Player["life"]}  Position : {Map[current_position]["room_name"]}
+    |Objects:                    | Potions :       |
+    ------------------------------------------------
+    |Sign         : {Player["Inventory"]["Objects"]["sign"]}            |Water       : {Player["Inventory"]["Potions"]["water"]}  |
+    |Decat_chair  : {Player["Inventory"]["Objects"]["decath_chair"]}            |Beer        : {Player["Inventory"]["Potions"]["beer"]}  |
+    |Fan          : {Player["Inventory"]["Objects"]["fan"]}            |sweet treat : {Player["Inventory"]["Potions"]["sweet_treat"]}  |
+    |Empty_water_bottle : {Player["Inventory"]["Objects"]["empty_water_bottle"]}      |                 | 
+    ------------------------------------------------
+    |Exchange : Cashless : {Player["Inventory"]["cashless"]} / Cup : {Player["Inventory"]["cup"]}             |
     
     """,
     f"""3
@@ -35,28 +36,28 @@ def stage_display(nb):
     Texte: {Map[current_position]["direction_print"]}
     """,
     f""" 2
-    |Drunk crowd attacks | life : :                                                    |Your attacks | Life : {Player["life"]}
+    |Drunk crowd attacks | life : {Drunk_crowd["life"]}                                     |Your attacks | Life : {Player["life"]}
     |sweaty_contact  : {Drunk_crowd["Attacks"]["sweaty_contact"][0]} dommage  | Chance of Hit:{Drunk_crowd["Attacks"]["sweaty_contact"][1]}%      |Push      : {Player["Attacks"]["push"][0]} dommage  | Chance of Hit : {Player["Attacks"]["push"][1]}%
     |step_on_the_feet: {Drunk_crowd["Attacks"]["step_on_the_feet"][0]} dommage  | Chance of Hit:{Drunk_crowd["Attacks"]["step_on_the_feet"][1]}%      |Love dance: {Player["Attacks"]["love_dance"][0]} dommage  | Chance of Hit : {Player["Attacks"]["love_dance"][1]}%
     
     
-                    |Sign               : {Player["Inventory"]["Objects"]["sign"]} |Dommage : {Objects["sign"]} |Water       : {Player["Inventory"]["Potions"]["water"]} |
-                    |Decat chair        : {Player["Inventory"]["Objects"]["decath_chair"]} |Dommage : {Objects["decath_chair"]} |Beer        : {Player["Inventory"]["Potions"]["beer"]} |
-                    |Fan                : {Player["Inventory"]["Objects"]["fan"]} |Dommage : {Objects["fan"]} |sweet treat : {Player["Inventory"]["Potions"]["sweet_treat"]} |
-                    |Empty water bottle : {Player["Inventory"]["Objects"]["empty_water_bottle"]} |Dommage : {Objects["empty_water_bottle"]} |
+                    |Sign               : {Player["Inventory"]["Objects"]["sign"]} |Dommage : {Objects["sign"]} |Water       : {Player["Inventory"]["Potions"]["water"]} | + {Objects["water"]} HP
+                    |Decat chair        : {Player["Inventory"]["Objects"]["decath_chair"]} |Dommage : {Objects["decath_chair"]} |Beer        : {Player["Inventory"]["Potions"]["beer"]} | + {Objects["beer"]} HP
+                    |Fan                : {Player["Inventory"]["Objects"]["fan"]} |Dommage : {Objects["fan"]} |sweet treat : {Player["Inventory"]["Potions"]["sweet_treat"]} | + {Objects["sweet_treat"]} HP
+                    |Empty water bottle : {Player["Inventory"]["Objects"]["empty_water_bottle"]} |Dommage : {Objects["empty_water_bottle"]} | + {Objects["empty_water_bottle"]} HP
                                           
     """,
     f"""  1
-    |{Security["name" ]} |                                                 |Your attacks | Life : {Player["life"]}
+    |{Security["name" ]} |   {Security["life"]}                            |Your attacks | Life : {Player["life"]}
     |Death_stare  : {Security["Attacks"]["death_stare"][0]} dommage  | Chance of Hit:{Security["Attacks"]["death_stare"][1]}%       |Push      : {Player["Attacks"]["push"][0]} dommage  | Chance of Hit : {Player["Attacks"]["push"][1]}%
     |Body_search  : {Security["Attacks"]["body_search"][0]} dommage  | Chance of Hit :{Security["Attacks"]["body_search"][1]}%      |Love dance: {Player["Attacks"]["love_dance"][0]} dommage  | Chance of Hit : {Player["Attacks"]["love_dance"][1]}%
     |Teargas      : {Security["Attacks"]["teargas"][0]} dommage  | Chance of Hit:{Security["Attacks"]["teargas"][1]}%
     
 
                     |Sign               : {Player["Inventory"]["Objects"]["sign"]} |Dommage : {Objects["sign"]} |Water       : {Player["Inventory"]["Potions"]["water"]} | + {Objects["water"]} HP
-                    |Decat chair        : {Player["Inventory"]["Objects"]["decath_chair"]} |Dommage : {Objects["decath_chair"]} |Beer        : {Player["Inventory"]["Potions"]["beer"]} | + {Objects["beer"]}
-                    |Fan                : {Player["Inventory"]["Objects"]["fan"]} |Dommage : {Objects["fan"]} |sweet treat : {Player["Inventory"]["Potions"]["sweet_treat"]} | + {Objects["sweet_treat"]}
-                    |Empty water bottle : {Player["Inventory"]["Objects"]["empty_water_bottle"]} |Dommage : {Objects["empty_water_bottle"]} |
+                    |Decat chair        : {Player["Inventory"]["Objects"]["decath_chair"]} |Dommage : {Objects["decath_chair"]} |Beer        : {Player["Inventory"]["Potions"]["beer"]} | + {Objects["beer"]} HP
+                    |Fan                : {Player["Inventory"]["Objects"]["fan"]} |Dommage : {Objects["fan"]} |sweet treat : {Player["Inventory"]["Potions"]["sweet_treat"]} | + {Objects["sweet_treat"]} HP
+                    |Empty water bottle : {Player["Inventory"]["Objects"]["empty_water_bottle"]} |Dommage : {Objects["empty_water_bottle"]} | + {Objects["empty_water_bottle"]} HP
     """
     ]
 
@@ -67,13 +68,13 @@ def stage_display(nb):
 
 def select_attack(Player):
 
-  #wdeals with the case where the Inventory is empty
+  #deals with the case where the Inventory is empty
   if Player["Inventory"]["Objects"]["sign"]+Player["Inventory"]["Objects"]["decath_chair"]+ Player["Inventory"]["Objects"]["empty_water_bottle"]+Player["Inventory"]["Objects"]["fan"]+  Player["Inventory"]["Potions"]["water"]+Player["Inventory"]["Potions"]["beer"]+Player["Inventory"]["Potions"]["sweet_treat"]==0:
-    print("You do not have found any items yet. Select a basic attack : Push or Love_dance ")
+    print("You do not have found any items yet. Select a basic attack : Push or love_dance ")
     choice = input().lower()
     while choice not in ["push","love_dance"]:
         choice = input("You miss typed your attack. Select a basic attack : push or love_dance  ")
-    return ("Attacks",choice) #type and the choice
+    return ("Attacks",choice) #returns type and the choice of player attacks
   
   elif Player["Inventory"]["Objects"]["sign"]+Player["Inventory"]["Objects"]["decath_chair"]+ Player["Inventory"]["Objects"]["empty_water_bottle"]+Player["Inventory"]["Objects"]["fan"]==0:
     #deals with the case where there is no objects in the inventory
@@ -105,10 +106,9 @@ def select_attack(Player):
       while choice not in ["push","love_dance"]:
         choice = input("You miss typed your attack. Select a basic attack : push or love_dance  ")
       return ("Attacks",choice)
-    
+
+  # deals with the case where there is no potions in the inventory 
   elif Player["Inventory"]["Potions"]["water"]+Player["Inventory"]["Potions"]["beer"]+Player["Inventory"]["Potions"]["sweet_treat"]==0:
-    
-    #deals with the case where there is no potions in the inventory
     print("You do not have found any potions yet. Do you want to use objects or basic attacks ?  ")
     choice = input().lower()
     while choice not in ["objects","basic attacks"]:
@@ -183,7 +183,7 @@ def select_attack(Player):
 
 def fight(Player,enemy_type):
     
-  #innitialise les stats de l'opponent en fonction du type d'adversaire
+  # Initialisation of enemy's characteristics
   if enemy_type == "Drunk_crowd":
     enemy_name = Drunk_crowd["name"][randint(0,len(Drunk_crowd["name"])-1)]
     enemy_life = Drunk_crowd['life']
@@ -215,12 +215,11 @@ def fight(Player,enemy_type):
     stage_display(nb)
     
     choice_player = select_attack(Player) #ie , choice_player("Attacks","push")
-    #print(choice_player)
 
 
-    # PARTIE DU COMBAT DU JOUEUR 
+    # player's turn
     if choice_player[0]== "Potions":
-      Player["life"] += Objects[choice_player[1]] #rajoute l'effet de la potion à la vie du joueur
+      Player["life"] += Objects[choice_player[1]] #
       print("You used " + choice_player[1])
       print("You regain " + str(Objects[choice_player[1]])+ " points of life")
       print(" >> You have now  " + str(Player["life"])+ " points of life")
@@ -229,7 +228,7 @@ def fight(Player,enemy_type):
 
     elif choice_player[0]== "Objects":
       if choice_player[1]== "sign":
-        enemy_life -= Objects[choice_player[1]] #fait passer un tour à l'ennemi + lui cause 2 de degats
+        enemy_life -= Objects[choice_player[1]] # skips enemy turn + causes him 2 points of damage
         print("You used " + choice_player[1] + " defense")
         print(enemy_name + " lost " + str(Objects[choice_player[1]]) + " points of life")
         if enemy_life > 0 :
@@ -239,7 +238,7 @@ def fight(Player,enemy_type):
         print(enemy_name + " wont be able to attack next turn")
 
       else :
-        enemy_life -= Objects[choice_player[1]] # inflige des déagats d'attaques à l'ennemi
+        enemy_life -= Objects[choice_player[1]] # inflicts attack damage to the enemy
         print("\n"+"You used " + choice_player[1] + " as an attack object")
         print("\n"+str(enemy_name) + " lost " + str(Objects[choice_player[1]]) + " points of life")
         if enemy_life > 0 :
@@ -258,6 +257,10 @@ def fight(Player,enemy_type):
         print("\n"+enemy_name + " lost " + str(Player["Attacks"][choice_player[1]][0]) + " points of life")
         if enemy_life > 0 :
           print("\n"+">> " + enemy_name + " has now " + str(enemy_life) + " points of life")
+          if enemy_type == "Drunk_crowd":
+            Drunk_crowd['life'] = enemy_life
+          else:
+            Security['life'] = enemy_life
         else : 
           print("\n"+">> " + enemy_name + " has now 0 points of life ")
       else :
@@ -265,22 +268,21 @@ def fight(Player,enemy_type):
         print("\n"+">> " + enemy_name + " has still " + str(enemy_life) + " points of life")
 
 
-
-    #PARTIE DU COMBAT DE L'OPPOSANT
+    # enemy's turn
 
     #security has 3 attacks
     if enemy_type == "Security":
       enemy_choice = list(enemy_attacks.keys())[randint(0,2)]
     else:
-      enemy_choice = list(enemy_attacks.keys())[randint(0,1)] # enemy_choice = string de l'attack
-    #print(enemy_choice)
+      enemy_choice = list(enemy_attacks.keys())[randint(0,1)] # enemy_choice = string of the attack
+  
 
     #skip enemy's turn if sign used
     if choice_player == ("Objects","sign"):
-      print("\n"+"The sign skips the " + enemy_name + "'s turn")
+      print("\n"+"The sign skips the " + enemy_name + "'s turn") 
 
     else : 
-      chances_of_hit = randint(0,100) # simulate a dice throw to see if the attack succeeds 
+      chances_of_hit = randint(0,100) # emulate a dice throw to see if the attack succeeds 
       
       if chances_of_hit < enemy_attacks[enemy_choice][1] and enemy_life > 0: 
         print(chances_of_hit)
@@ -289,7 +291,7 @@ def fight(Player,enemy_type):
             Player["Inventory"]["Potions"]["sweet_treat"] = 0
             print("Breit took all your sweet candies")
           else:
-            Player["life"] -= enemy_attacks[enemy_choice][0] #retire 3 pv
+            Player["life"] -= enemy_attacks[enemy_choice][0] # removes 3 life points
             print("\n"+"Breit hasn't found any sweet substance on you, but he shook you very well so you loose 3 points of life")
             print("\n"+">> You have " + str(Player["life"])+ " points of life remaining")
         else : 
@@ -358,23 +360,24 @@ def move():
   player_path = []
   game_on = True
 
-  plot_map(current_position,player_path)
+  plot_map(current_position,player_path) # initial plot of the map
 
-  while Player["life"]> 0 and current_position != "B7" and game_on != False:
+  while Player["life"]> 0 and current_position != "B7" and game_on != False: # main game loop
 
     if Map[current_position]["fight"][0] == True:
       dice = randint(0,100) #some fights don't appear all the time
-      #print(dice)
+ 
 
       if dice <= Map[current_position]["fight"][2] : 
-        #print(dice) # à retirer, juste pour le debug
+        
         Player["life"] = fight(Player,str(Map[current_position]["fight"][1])) #take enemy type as an argument
+
         Map[current_position]["fight"][0] = False # fight has occured, so we set it to false
 
-      elif current_position == "B5" and dice > Map[current_position]["fight"][2]and Player["life"]> 0:
+      elif current_position == "B5" and dice > Map[current_position]["fight"][2]and Player["life"]> 0: # bribe security
         print("For some strange reason, Breit is moved by your story and let himself be corrubted. Breit let you through to enjoy the concert.")
 
-          #loot the drunk crowd dropped objects   
+        #loot the drunk crowd dropped objects   
       if Map[current_position]["fight"][1] == "Drunk_crowd" and Player["life"]> 0:
         print("""After plenty of dodging and squeezin through, you finally managed to get past festival-goer who was blocking your way. You decide to snatch their cashless wristband and their beer as payback.""")
         Player["Inventory"]["Potions"]["beer"]+=1
@@ -386,7 +389,7 @@ def move():
         choice = input("Do you want play again ? yes or no." + "\n")
         # If yes, his inventory returns to 0, the fight boxes are reset to 
         #True, and the same applies to objects.
-        if choice == "yes": #reinitialisation des données si oui et continue le jeu
+        if choice == "yes": #reset the player inventory and game state
           Player["life"] = 30
           for key in Player["Inventory"]["Objects"]:
             Player["Inventory"]["Objects"][key] = 0
@@ -398,26 +401,28 @@ def move():
             #I request that the visited properties be set to False.
           list_room_visited_true =["B1","A1","C1","C2","D2","C3","B3","A3","C4","C5","D5","B5","B6"]        
           for room in list_room_visited_true:
-            Map[room]["visited"] = False
+            Map[room]["visited"] = False #reset visited to false
             
             #list of object cases that must be reset to true
           list_room_objet_true =["B1","A1","C2","D2","C3","B3","A3","D5"]
           for room in list_room_objet_true:
-            Map[room]["object"][0]= True
+            Map[room]["object"][0]= True #reset object to true
               
             #list of fight boxes that must be re-entered true
           list_room_fight = ["C1","C3","B5"]
           for room in list_room_fight:
-            Map[room]["fight"][0]= True,
+            Map[room]["fight"][0]= True #reset fight to true
             # Come back to the start 
           current_position = "B0"
-          return move(current_position)
-        elif choice == "no": #return la fonction 
+          return move()
+        elif choice == "no": # exit the game
           print("Thank you for your participation !")
           return
 
-      
-    print(Map[current_position]["direction_print"])
+    #Display stat:
+    stage_display(4)
+    
+    print(Map[current_position]["direction_print"]) # display the description of the room
 
 
       # Check if the room contains objects and collect them
@@ -426,41 +431,42 @@ def move():
       
       # If the player is at the bar and has enough resources, offer drinks
       choiceBuyDrink = 0
-      while current_position == "A3" and choiceBuyDrink != "no":
-        if Map[current_position]["object"][3] == "cashless":
-          print("""
-                You have found a Cashless !!
+
+      if current_position == "A3":
+        print("""
+              
           After chatting with a beautiful stranger, she generously
           offers you a cashless payment to help you drown your sorrows.
-          As a bonus, you get her number.
-         06.34.46.21.64 ;)
+          As a bonus, you get her discord ID.
+         ErwinTheCat ;)
         """)
-          Map[current_position]["object"][3]= False      
+        Map[current_position]["object"][3]= False  #cashless has been picked up
+
+        while choiceBuyDrink!= "no":
           choiceBuyDrink = input("What can I get you, troubadour? Exchange your 'cashless'for a beer or your 3 'cup' for a water drink or type 'no' to move on" + "\n").lower()
-        while choiceBuyDrink not in ["cashless", "cup","no"]:
+          while choiceBuyDrink not in ["cashless", "cup","no"]: #validate input
             choiceBuyDrink = input("You made a typo. What can I get you, troubadour? Exchange your 'cashless' for a beer or your 3 'cup' for a water drink or type 'no' to move on" + "\n").lower()
         
-        # If the player chooses "beer" and has enough cashless currency
-        if choiceBuyDrink == "cashless" and Player["Inventory"]["cashless"] >= 1:
-            Player["Inventory"]["cashless"] -= 1
-            Player["Inventory"]["Potions"]["beer"] += 1
-            stage_display(6)
+          # If the player chooses "beer" and has enough cashless currency
+          if choiceBuyDrink == "cashless" and Player["Inventory"]["cashless"] >= 1:
+              Player["Inventory"]["cashless"] -= 1
+              Player["Inventory"]["Potions"]["beer"] += 1
+              stage_display(6)
+          
+          # If the player chooses "water" and has at least 3 cups
+          elif choiceBuyDrink == "cup":
+              if Player["Inventory"]["cup"] == 3:
+                  Player["Inventory"]["cup"] -= 3
+                  Player["Inventory"]["Potions"]["water"] += 1
+                  stage_display(6)
+              else : 
+                  print("You don't have enough cups!")
         
-        # If the player chooses "water" and has at least 3 cups
-        elif choiceBuyDrink == "cup":
-            if Player["Inventory"]["cup"] == 3:
-                Player["Inventory"]["cup"] -= 3
-                Player["Inventory"]["Potions"]["water"] += 1
-                stage_display(6)
-            else : 
-                print("You don't have enough cups!")
-        
-          # If no valid choice is made, call the move function
-          #elif choiceBuyDrink == "no":
-              #break -+
       # ---------------------------------------------
       # If the player is at "B3" or "D5" and there are objects in the room
     if current_position == "B3" and Map[current_position]["object"][0] == True or current_position == "D5" and Map[current_position]["object"][0] == True:
+          
+          # Offer the player to take the "sweet_treat" potion
           print(f"Psst psst. Someone offers you a {Map[current_position]['object'][2]}, would you like to take it ?")
           choice = input("yes or no "+ "\n").lower()
           while choice not in ["yes", "no"]:
@@ -473,19 +479,16 @@ def move():
 
     if current_position =="C3" and Map[current_position]["visited"]== False:
           print(" Someone catches your attention to the left.")
-      # Enjoy the surprise !!!
-    
+  
+    # Enjoy the surprise !!!
     if current_position == "B6": 
       print("You've made it to the main stage, enjoy the festival!")
-      webbrowser.open("https://urlr.me/vbfGyk")
+      webbrowser.open("https://urlr.me/vbfGyk") 
       return
 
       # ---------------------------------------------
-      #Display stat:
-    stage_display(4)
-      # ---------------------------------------------
       # Ask the player for the next direction
-    choice = input(" Which direction do you want to take ?" + str(Map[current_position]["print_possible_answers"]) + "\n").lower()
+    choice = input(" Which direction do you want to take ?" + str(Map[current_position]["print_possible_answers"]) + "\n").lower() 
     while choice not in Map[current_position]["print_possible_answers"]:
       choice = input("You made a typo. Which direction do you want to take?" + str(Map[current_position]["print_possible_answers"])+ "\n").lower()
       
@@ -494,9 +497,10 @@ def move():
       answer = input("You are quitting the game, type yes to continue"+ "\n").lower()
       while answer != "yes":
         answer = input("Please answer yes. Are you sure you want to quit ?"+ "\n").lower()
-      game_on = False
+      game_on = False # exit the game loop
+
       # ---------------------------------------------
-      # Allow the player to heal using potions: OK!!!
+      # Allow the player to heal using potions !!
     elif choice == "to heal":
       choicePotion = input("Take a potion: " + str(Player["Inventory"]["Potions"])+ " or no" + "\n").lower()
       while choicePotion not in Player["Inventory"]["Potions"] and choicePotion != "no"  :
@@ -520,22 +524,18 @@ def move():
 
     else:
       index = Map[current_position]["print_possible_answers"].index(choice) #print de direction
-      previous_position = current_position #pour le plot
+      previous_position = current_position #save previous position
       Map[current_position]["visited"] = True
-      current_position = Map[current_position]["possible_box_directions"][index] #chance la direction
+      current_position = Map[current_position]["possible_box_directions"][index] #update current position
+      #update player path for plotting
       if current_position in Map:
         player_path.append((previous_position,current_position))
       plot_map(current_position,player_path)
 
-          
-
-          
-        
-
       # ---------------------------------------------
 
 
-#DEF PLOT MAP
+#DEF PLOT MAP OF THE GAME
 
 def plot_map(current_position,player_path):
 

@@ -44,14 +44,26 @@ def menu():
   ---------------- JMJ FESTIVAL ------------------
                     Main menu
   -------------------------------------------------
-                    Start Game
-                      About
-                      Quit
-  """)
-  if choice == "Start Game":
+                    start game
+                      about
+                      quit
+  """).lower()
+  while choice not in ["start game","about","quit"]:
+    print("Invalid input. Please choose one of the three options.")
+    choice = input(
+    """
+    ---------------- JMJ FESTIVAL ------------------
+                      Main menu
+    -------------------------------------------------
+                      start game
+                        about
+                        quit
+    """).lower()
+
+  if choice == "start game":
     move()
-  elif choice == "About":
+  elif choice == "about":
     about()
-  elif choice == "Quit":
+  elif choice == "quit":
     return
 menu()
